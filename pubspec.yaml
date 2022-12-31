@@ -1,0 +1,46 @@
+name: fuzzy_greenhouse
+description: Mobile app for control and monitoring of the Fuzzy Greenhouse.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 0.1.0
+
+environment:
+  sdk: 2.18.4
+  flutter: 3.3.8
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  #---NETWORK DATA---#
+  firebase_core: 2.4.1
+  firebase_auth: 4.2.4
+  firebase_database: 10.0.9
+  dio: 4.0.6
+
+  #---STATE MANAGEMENT---#
+  flutter_bloc: 8.1.1
+  flutter_riverpod: 2.1.1
+
+  #---UI---#
+  flutter_svg: 1.1.6
+  cupertino_icons: ^1.0.2
+
+  #---LOCATOR---#
+  get_it: 7.2.0
+  injectable: 2.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/svg/icons/
+    - assets/images/
+
