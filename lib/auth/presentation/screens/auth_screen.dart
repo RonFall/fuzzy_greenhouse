@@ -31,27 +31,7 @@ class AuthScreen extends ConsumerWidget {
     final loginController = ref.watch(loginAuthProvider);
     final passController = ref.watch(passAuthProvider);
 
-    ref.listen<AsyncValue<User?>>(authStateProvider, (previous, next) {
-      if (next.isLoading) LoadingScreen.instance.show(context: context);
-
-      if (next.hasError) {
-        if (previous?.isLoading == true) LoadingScreen.instance.hide();
-
-        Future.delayed(const Duration(milliseconds: 100));
-        showSnackBar(
-          context,
-          message: 'Ошибка: ${(AuthService.mapFirebaseError(next.error))}',
-        );
-      }
-      if (next.hasValue) {
-        if (previous?.isLoading == true) LoadingScreen.instance.hide();
-
-        Future.delayed(const Duration(milliseconds: 100));
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const HouseScreen()),
-        );
-      }
-    });
+    onListen(context, ref);
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -123,5 +103,36 @@ class AuthScreen extends ConsumerWidget {
   }) {
     if (isKeyboardVisible(context)) FocusScope.of(context).unfocus();
     ref.read(authStateProvider.notifier).logIn(email: email, password: pass);
+  }
+
+  void onListen(BuildContext context, WidgetRef ref) {
+    ref.listen<AsyncValue<User?>>(authStateProvider, (previous, next) {
+      if (next.isLoading) LoadingScreen.instance.show(context: context);
+
+      if (next.hasError) {
+        if (previous?.isLoading == true) LoadingScreen.instance.hide();
+
+        Future.delayed(const Duration(milliseconds: 100));
+        showSnackBar(
+          context,
+          message: 'Ошибка: ${(AuthService.mapFirebaseError(next.error))}',
+        );
+      }
+      if (next.hasValue) {
+        if (previous?.isLoading == true) LoadingScreen.instance.hide();
+
+        Future.delayed(const Duration(milliseconds: 100));
+        showSnackBar(
+          context,
+          message: 'Вы успешно авторизовались!',
+          duration: const Duration(milliseconds: 800),
+          messageType: MessageType.success,
+        );
+        Future.delayed(const Duration(milliseconds: 800));
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const HouseScreen()),
+        );
+      }
+    });
   }
 }
