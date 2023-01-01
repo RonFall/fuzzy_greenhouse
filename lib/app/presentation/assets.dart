@@ -1,5 +1,6 @@
 class AppAssets {
   static const authLogo = 'assets/images/auth_logo.png';
+  static const addGreenhouse = 'assets/images/add_greenhouse.png';
 }
 
 class AppVectorAssets {

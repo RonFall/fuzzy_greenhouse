@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fuzzy_greenhouse/app/app_providers.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
+import 'package:fuzzy_greenhouse/app/presentation/assets.dart';
 import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.dart';
 import 'package:fuzzy_greenhouse/app/presentation/screens/loading_dialog_screen.dart';
 import 'package:fuzzy_greenhouse/auth/presentation/screens/auth_screen.dart';
@@ -51,21 +52,32 @@ class HouseScreen extends ConsumerWidget {
             ),
           ],
         ),
-        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: ref.read(authStateProvider.notifier).logOut,
+            icon: const Icon(Icons.exit_to_app_rounded, size: 28),
+          )
+        ],
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset(AppAssets.addGreenhouse, height: 128, width: 128),
+            const HeightFiller(16),
             Text(
-              'Добро пожаловать!',
+              'У вас нет добавленных\nтеплиц.',
               textAlign: TextAlign.center,
               style: AppTextStyle.appBarStyle.copyWith(color: AppColors.black),
             ),
             const HeightFiller(16),
-            ElevatedButton(
-              onPressed: () => ref.read(authStateProvider.notifier).logOut(),
-              child: const Text('Выйти', style: AppTextStyle.buttonTextStyle),
+            AppButton(
+              height: 48,
+              width: screenWidth(context) / 1.5,
+              text: 'Добавить',
+              textStyle: AppTextStyle.buttonTextStyle,
+              buttonColor: AppColors.accentColor,
+              onPressed: () {},
             ),
           ],
         ),

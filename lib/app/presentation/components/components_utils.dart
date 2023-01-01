@@ -79,3 +79,17 @@ class AppButton extends StatelessWidget {
 bool isKeyboardVisible(BuildContext context) {
   return MediaQuery.of(context).viewInsets.bottom > 1;
 }
+
+Size getScreenSize(BuildContext context) {
+  return MediaQuery.of(context).size;
+}
+
+/// Высота конкретного экарана
+double screenHeight(BuildContext context) {
+  return getScreenSize(context).height;
+}
+
+/// Ширина конкретного экарана
+double screenWidth(BuildContext context) {
+  return getScreenSize(context).width;
+}
