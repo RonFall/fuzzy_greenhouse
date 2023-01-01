@@ -3,21 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fuzzy_greenhouse/auth/data/repositories/auth_service.dart';
 
-final userProvider = Provider<User?>(
-  (ref) {
-    final authProvider = ref.watch(authStateProvider);
-    if (authProvider.hasValue) {
-      return authProvider.value;
-    }
-    return null;
-  },
-);
-
-final authStateProvider =
-    StateNotifierProvider<AuthStateNotifier, AsyncValue<User?>>(
-  (ref) => AuthStateNotifier(),
-);
-
 class AuthStateNotifier extends StateNotifier<AsyncValue<User?>> {
   final _authService = AuthService();
 

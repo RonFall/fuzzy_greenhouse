@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fuzzy_greenhouse/app/app_providers.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
 import 'package:fuzzy_greenhouse/app/presentation/assets.dart';
@@ -9,19 +10,7 @@ import 'package:fuzzy_greenhouse/app/presentation/components/app_textfield.dart'
 import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.dart';
 import 'package:fuzzy_greenhouse/app/presentation/screens/loading_dialog_screen.dart';
 import 'package:fuzzy_greenhouse/auth/data/repositories/auth_service.dart';
-import 'package:fuzzy_greenhouse/auth/domain/auth_riverpod.dart';
 import 'package:fuzzy_greenhouse/house/presentation/screens/house_screen.dart';
-
-final loginAuthProvider = Provider.autoDispose<TextEditingController>((ref) {
-  final controller = TextEditingController();
-  ref.onDispose(() => controller.dispose());
-  return controller;
-});
-final passAuthProvider = Provider.autoDispose<TextEditingController>((ref) {
-  final controller = TextEditingController();
-  ref.onDispose(() => controller.dispose());
-  return controller;
-});
 
 class AuthScreen extends ConsumerWidget {
   const AuthScreen({Key? key}) : super(key: key);
@@ -31,7 +20,7 @@ class AuthScreen extends ConsumerWidget {
     final loginController = ref.watch(loginAuthProvider);
     final passController = ref.watch(passAuthProvider);
 
-    onListen(context, ref);
+    onAuthListen(context, ref);
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -105,15 +94,18 @@ class AuthScreen extends ConsumerWidget {
     ref.read(authStateProvider.notifier).logIn(email: email, password: pass);
   }
 
-  void onListen(BuildContext context, WidgetRef ref) {
+  void onAuthListen(BuildContext context, WidgetRef ref) {
     ref.listen<AsyncValue<User?>>(authStateProvider, (previous, next) {
-      if (next.isLoading) LoadingScreen.instance.show(context: context);
+      if (next.isLoading) {
+        LoadingScreen.instance.show(context: context);
+      }
 
       if (next.hasError) {
-        if (previous?.isLoading == true) LoadingScreen.instance.hide();
+        if (previous?.isLoading == true) {
+          LoadingScreen.instance.hide();
+        }
 
-        Future.delayed(const Duration(milliseconds: 100));
-        showSnackBar(
+        showFlushBar(
           context,
           message: 'Ошибка: ${(AuthService.mapFirebaseError(next.error))}',
         );
@@ -121,14 +113,6 @@ class AuthScreen extends ConsumerWidget {
       if (next.hasValue) {
         if (previous?.isLoading == true) LoadingScreen.instance.hide();
 
-        Future.delayed(const Duration(milliseconds: 100));
-        showSnackBar(
-          context,
-          message: 'Вы успешно авторизовались!',
-          duration: const Duration(milliseconds: 800),
-          messageType: MessageType.success,
-        );
-        Future.delayed(const Duration(milliseconds: 800));
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => const HouseScreen()),
         );

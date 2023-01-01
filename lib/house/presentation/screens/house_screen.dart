@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fuzzy_greenhouse/app/app_providers.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
+import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.dart';
 import 'package:fuzzy_greenhouse/app/presentation/screens/loading_dialog_screen.dart';
-import 'package:fuzzy_greenhouse/auth/domain/auth_riverpod.dart';
 import 'package:fuzzy_greenhouse/auth/presentation/screens/auth_screen.dart';
 
 class HouseScreen extends ConsumerWidget {
@@ -16,39 +17,54 @@ class HouseScreen extends ConsumerWidget {
     ref.listen<AsyncValue<User?>>(authStateProvider, (prev, next) {
       final uid = next.value?.uid;
 
-      if (prev?.isLoading == false && next.isLoading) {
+      if (next.isLoading) {
         LoadingScreen.instance.show(context: context);
       }
-      if (prev?.isLoading == true && !next.isLoading) {
-        Future.delayed(const Duration(milliseconds: 300)).then((value) {
-          LoadingScreen.instance.hide();
-        });
+      if (!next.isLoading) {
+        LoadingScreen.instance.hide();
       }
 
       /// Если пользователь вышел - заменяем текущий экран на экран авторизации
       if (uid == null) {
-        Future.delayed(const Duration(milliseconds: 300)).then((value) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const AuthScreen()),
-          );
-        });
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const AuthScreen()),
+        );
       }
     });
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.accentColor,
+        title: Row(
+          children: [
+            CircleAvatar(
+              backgroundColor: AppColors.cardColor,
+              child: Text('${user?.email?[0]}'),
+            ),
+            const WidthFiller(12),
+            Flexible(
+              child: Text(
+                '${user?.email}',
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: AppTextStyle.appBarStyle,
+              ),
+            ),
+          ],
+        ),
+        centerTitle: true,
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Welcome ${user?.uid}',
-              style: AppTextStyle.appBarStyle.copyWith(
-                color: AppColors.black,
-              ),
+              'Добро пожаловать!',
+              textAlign: TextAlign.center,
+              style: AppTextStyle.appBarStyle.copyWith(color: AppColors.black),
             ),
+            const HeightFiller(16),
             ElevatedButton(
-              onPressed: () {
-                ref.read(authStateProvider.notifier).logOut();
-              },
+              onPressed: () => ref.read(authStateProvider.notifier).logOut(),
               child: const Text('Выйти', style: AppTextStyle.buttonTextStyle),
             ),
           ],
