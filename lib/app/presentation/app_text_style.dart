@@ -14,7 +14,7 @@ class AppTextStyle {
     fontWeight: FontWeight.bold,
   );
 
-  static const alertLoadingTextStyle = TextStyle(
+  static const alertTextStyle = TextStyle(
     color: AppColors.black,
     fontSize: 16,
     fontWeight: FontWeight.w500,

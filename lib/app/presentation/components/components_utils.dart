@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
+import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
 
 class HeightFiller extends StatelessWidget {
   const HeightFiller(this.height, {Key? key}) : super(key: key);
@@ -24,11 +26,11 @@ class AppButton extends StatelessWidget {
     this.height,
     this.width,
     this.text,
-    this.textStyle,
     this.buttonStyle,
-    this.buttonColor,
     this.child,
     this.onPressed,
+    this.textStyle = AppTextStyle.buttonTextStyle,
+    this.buttonColor = AppColors.accentColor,
   }) : super(key: key);
 
   /// Высота кнопки
@@ -40,20 +42,20 @@ class AppButton extends StatelessWidget {
   /// Текст кнопки
   final String? text;
 
-  /// Стиль текста кнопки
-  final TextStyle? textStyle;
-
   /// Стиль кнопки
   final ButtonStyle? buttonStyle;
-
-  /// Цвет кнопки
-  final Color? buttonColor;
 
   /// Виджет-потомок, если нет текста кнопки
   final Widget? child;
 
   /// Событие при нажатии
   final VoidCallback? onPressed;
+
+  /// Стиль текста кнопки
+  final TextStyle textStyle;
+
+  /// Цвет кнопки
+  final Color buttonColor;
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fuzzy_greenhouse/app/app_navigator.dart';
 import 'package:fuzzy_greenhouse/app/app_providers.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
@@ -22,6 +23,7 @@ class AuthScreen extends ConsumerWidget {
 
     onAuthListen(context, ref);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.white,
       appBar: AppBar(
         backgroundColor: AppColors.accentColor,
@@ -38,8 +40,9 @@ class AuthScreen extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: AppTextField(
                 controller: loginController,
-                hintText: 'Логин/почта/телефон',
+                hintText: 'Email',
                 fieldAction: TextInputAction.next,
+                keyboardType: TextInputType.emailAddress,
                 next: true,
               ),
             ),
@@ -113,9 +116,7 @@ class AuthScreen extends ConsumerWidget {
       if (next.hasValue) {
         if (previous?.isLoading == true) LoadingScreen.instance.hide();
 
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const HouseScreen()),
-        );
+        AppNavigator.replaceScreen(context, screen: const HouseScreen());
       }
     });
   }

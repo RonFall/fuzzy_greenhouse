@@ -72,7 +72,7 @@ class LoadingScreen {
                         color: AppColors.accentColor,
                       ),
                       const HeightFiller(16),
-                      Text(text, style: AppTextStyle.alertLoadingTextStyle)
+                      Text(text, style: AppTextStyle.alertTextStyle)
                     ],
                   ),
                 ),

@@ -6,6 +6,7 @@ class AppTextField extends StatefulWidget {
     Key? key,
     this.next = false,
     this.fieldAction = TextInputAction.done,
+    this.keyboardType = TextInputType.name,
     this.hintText = '',
     this.textColor = Colors.black,
     this.inputFieldBorderColor = AppColors.inputFieldBorderColor,
@@ -21,6 +22,9 @@ class AppTextField extends StatefulWidget {
 
   /// Действие после заполнения поля
   final TextInputAction fieldAction;
+
+  /// Формат клавиатуры
+  final TextInputType keyboardType;
 
   /// Текст поля, когда оно пустое
   final String hintText;
@@ -74,6 +78,7 @@ class _AppTextFieldState extends State<AppTextField> {
       textInputAction: widget.fieldAction,
       style: TextStyle(color: widget.textColor),
       cursorColor: widget.inputFieldBorderColor,
+      keyboardType: widget.keyboardType,
       decoration: InputDecoration(
         hintText: widget.hintText,
         contentPadding: const EdgeInsets.only(left: 16),

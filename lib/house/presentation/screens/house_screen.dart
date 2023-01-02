@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fuzzy_greenhouse/app/app_navigator.dart';
 import 'package:fuzzy_greenhouse/app/app_providers.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
@@ -8,6 +9,7 @@ import 'package:fuzzy_greenhouse/app/presentation/assets.dart';
 import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.dart';
 import 'package:fuzzy_greenhouse/app/presentation/screens/loading_dialog_screen.dart';
 import 'package:fuzzy_greenhouse/auth/presentation/screens/auth_screen.dart';
+import 'package:fuzzy_greenhouse/house/presentation/screens/add_greenhouse_screen.dart';
 
 class HouseScreen extends ConsumerWidget {
   const HouseScreen({Key? key}) : super(key: key);
@@ -27,9 +29,7 @@ class HouseScreen extends ConsumerWidget {
 
       /// Если пользователь вышел - заменяем текущий экран на экран авторизации
       if (uid == null) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const AuthScreen()),
-        );
+        AppNavigator.replaceScreen(context, screen: const AuthScreen());
       }
     });
     return Scaffold(
@@ -63,7 +63,8 @@ class HouseScreen extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(AppAssets.addGreenhouse, height: 128, width: 128),
+            Image.asset(AppAssets.greenhouseEmptyScreen,
+                height: 128, width: 128),
             const HeightFiller(16),
             Text(
               'У вас нет добавленных\nтеплиц.',
@@ -77,7 +78,12 @@ class HouseScreen extends ConsumerWidget {
               text: 'Добавить',
               textStyle: AppTextStyle.buttonTextStyle,
               buttonColor: AppColors.accentColor,
-              onPressed: () {},
+              onPressed: () {
+                AppNavigator.pushScreen(
+                  context,
+                  screen: const AddGreenhouseScreen(),
+                );
+              },
             ),
           ],
         ),
