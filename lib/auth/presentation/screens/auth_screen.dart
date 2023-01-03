@@ -6,7 +6,7 @@ import 'package:fuzzy_greenhouse/app/app_providers.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
 import 'package:fuzzy_greenhouse/app/presentation/assets.dart';
-import 'package:fuzzy_greenhouse/app/presentation/components/app_snack_bar.dart';
+import 'package:fuzzy_greenhouse/app/presentation/components/app_flush_bar.dart';
 import 'package:fuzzy_greenhouse/app/presentation/components/app_textfield.dart';
 import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.dart';
 import 'package:fuzzy_greenhouse/app/presentation/screens/loading_dialog_screen.dart';

@@ -6,11 +6,13 @@ class AppAssets {
 }
 
 class AppVectorAssets {
-  static const temperature = 'assets/icons/temperature.svg';
+  static const temperature = 'assets/svg/icons/temperature.svg';
 
-  static const humidity = 'assets/icons/humidity.svg';
+  static const humidity = 'assets/svg/icons/humidity.svg';
 
-  static const concentration = 'assets/icons/concentration.svg';
+  static const concentration = 'assets/svg/icons/concentration.svg';
 
-  static const level = 'assets/icons/level.svg';
+  static const level = 'assets/svg/icons/level.svg';
+
+  static const greenhouseItem = 'assets/svg/icons/greenhouse_item.svg';
 }

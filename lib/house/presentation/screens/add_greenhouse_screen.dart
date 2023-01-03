@@ -5,7 +5,6 @@ import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
 import 'package:fuzzy_greenhouse/app/presentation/assets.dart';
 import 'package:fuzzy_greenhouse/app/presentation/components/app_textfield.dart';
 import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.dart';
-import 'package:fuzzy_greenhouse/app/presentation/screens/alert_dialog_screen.dart';
 import 'package:fuzzy_greenhouse/app/presentation/screens/loading_dialog_screen.dart';
 
 class AddGreenhouseScreen extends StatelessWidget {
@@ -55,12 +54,6 @@ class AddGreenhouseScreen extends StatelessWidget {
     LoadingScreen.instance.show(context: context);
     Future.delayed(const Duration(milliseconds: 500), () {
       LoadingScreen.instance.hide();
-      choiceAlert(
-        context,
-        bodyText: greenhouseName,
-        onConfirm: () {},
-        onCancel: Navigator.of(context).pop,
-      );
     });
   }
 }
