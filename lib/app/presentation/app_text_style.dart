@@ -14,6 +14,12 @@ class AppTextStyle {
     fontWeight: FontWeight.w600,
   );
 
+  static const bodyTextSubtitleThin = TextStyle(
+    color: AppColors.black,
+    fontSize: 18,
+    fontWeight: FontWeight.w400,
+  );
+
   static const appBarStyle = TextStyle(
     color: AppColors.white,
     fontSize: 22,

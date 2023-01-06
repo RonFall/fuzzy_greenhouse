@@ -95,3 +95,25 @@ double screenHeight(BuildContext context) {
 double screenWidth(BuildContext context) {
   return getScreenSize(context).width;
 }
+
+extension IterableExtension on Iterable<Widget>? {
+  Iterable<Widget> divideTiles({
+    Widget divider = const Divider(),
+  }) {
+    if (this == null) return [];
+    final tiles = this!.toList();
+
+    if (tiles.isEmpty || tiles.length == 1) {
+      return tiles;
+    }
+
+    Iterable<Widget> wrapTile(Widget tile) {
+      return [tile, divider];
+    }
+
+    return <Widget>[
+      for (final item in tiles.take(tiles.length - 1)) ...wrapTile(item),
+      tiles.last,
+    ];
+  }
+}

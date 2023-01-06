@@ -5,6 +5,7 @@ class AppColors {
   static const white = Color(0xFFFFFFFF);
   static const black = Color(0xFF000000);
   static const accentColor = Color(0xFF2252AB);
+  static const infoButtonColor = Color(0xFF56ACD1);
 
   /// VIEW COLORS
   static const bodyColor = Color(0xFFE3FEFF);
@@ -21,6 +22,7 @@ class AppColors {
   static const humSensorColor = Color(0xFF2A84D3);
   static const levelSensorColor = Color(0xFF1F56B5);
   static const lightSensorColor = Color(0xFFF0FFF3);
+  static const co2SensorColor = Color(0xFF695C2C);
 
   /// SNACK BAR COLORS
   static const snackBarErrorColor = Color(0xFF9F2125);

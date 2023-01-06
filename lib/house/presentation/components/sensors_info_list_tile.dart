@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
@@ -32,8 +33,9 @@ class InfoListTile extends StatelessWidget {
             ),
             const WidthFiller(16),
             Flexible(
-              child: Text(
+              child: AutoSizeText(
                 title,
+                maxLines: 1,
                 style: AppTextStyle.bodyTextSubtitle,
               ),
             ),

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,9 +47,8 @@ class HouseScreen extends ConsumerWidget {
             ),
             const WidthFiller(12),
             Flexible(
-              child: Text(
+              child: AutoSizeText(
                 '${user?.email}',
-                overflow: TextOverflow.ellipsis,
                 maxLines: 1,
                 style: AppTextStyle.appBarStyle,
               ),
@@ -98,7 +98,11 @@ class HouseBodyView extends StatelessWidget {
                   width: 24,
                 ),
               ),
-              title: const Text('Антоновская'),
+              title: const AutoSizeText(
+                'Антоновская',
+                maxLines: 1,
+                style: AppTextStyle.bodyTextSubtitleThin,
+              ),
               trailing: const Icon(Icons.arrow_forward_ios_rounded),
             ),
           ),

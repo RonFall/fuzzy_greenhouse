@@ -26,6 +26,7 @@ dependencies:
   #---UI---#
   flutter_svg: 1.1.6
   another_flushbar: 1.12.29
+  auto_size_text: 3.0.0
   cupertino_icons: 1.0.2
 
   #---LOCATOR---#

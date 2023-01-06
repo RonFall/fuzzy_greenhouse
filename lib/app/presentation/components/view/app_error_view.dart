@@ -36,6 +36,8 @@ class AppErrorView extends StatelessWidget {
                 Flexible(
                   child: Text(
                     'Попробовать еще раз',
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
                     style: AppTextStyle.buttonTextStyle,
                   ),
                 ),

@@ -4,6 +4,7 @@ import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
 import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.dart';
 import 'package:fuzzy_greenhouse/house/presentation/components/sensors_info_card.dart';
 import 'package:fuzzy_greenhouse/house/presentation/components/sensors_info_list_tile.dart';
+import 'package:fuzzy_greenhouse/house/presentation/house_sensors_modal.dart';
 
 class HouseSensorsInfoScreen extends StatelessWidget {
   const HouseSensorsInfoScreen({Key? key}) : super(key: key);
@@ -50,13 +51,13 @@ class HouseSensorsInfoScreen extends StatelessWidget {
               trailing: Column(
                 children: [
                   Text(
-                    '53.64 с.ш.',
+                    '47.28 с.ш.',
                     style: AppTextStyle.bodyTextSubtitle.copyWith(
                       fontSize: 14,
                     ),
                   ),
                   Text(
-                    '43.28 в.д.',
+                    '39.56 в.д.',
                     style: AppTextStyle.bodyTextSubtitle.copyWith(
                       fontSize: 14,
                     ),
@@ -77,12 +78,17 @@ class HouseSensorsInfoScreen extends StatelessWidget {
               trailing: Text('6', style: AppTextStyle.bodyTextSubtitle),
             ),
             const HeightFiller(12),
-            InfoListTile(
-              icon: const Icon(Icons.map_rounded),
-              title: 'Скачать схему',
-              trailing: InkWell(
-                onTap: () {},
-                child: const Icon(Icons.sim_card_download_rounded, size: 32),
+            // TODO(RonFall): Если схема доступна показываем
+            InkWell(
+              onTap: () {},
+              borderRadius: BorderRadius.circular(12),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 4),
+                child: InfoListTile(
+                  icon: Icon(Icons.map_rounded),
+                  title: 'Скачать схему',
+                  trailing: Icon(Icons.sim_card_download_rounded, size: 32),
+                ),
               ),
             ),
             const HeightFiller(24),
@@ -90,55 +96,81 @@ class HouseSensorsInfoScreen extends StatelessWidget {
             const HeightFiller(16),
             InfoSensorCard.custom(
               sensorTitle: 'Температура и влажность',
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              onPressed: () => HouseSensorsModals.showTempHumidModal(context),
+              child: Column(
                 children: [
-                  Column(
+                  Row(
                     children: const [
                       CircleAvatar(
                         backgroundColor: AppColors.circleAvatarColor,
+                        radius: 24,
                         child: Icon(
                           Icons.thermostat_rounded,
+                          size: 32,
                           color: AppColors.tempSensorColor,
                         ),
                       ),
-                      HeightFiller(4),
-                      Text('27 C', style: AppTextStyle.bodyTextSubtitle)
+                      WidthFiller(8),
+                      Flexible(
+                        child: Text('27 °C', style: AppTextStyle.bodyTextTitle),
+                      ),
                     ],
                   ),
-                  Column(
+                  const HeightFiller(8),
+                  Row(
                     children: const [
                       CircleAvatar(
                         backgroundColor: AppColors.circleAvatarColor,
+                        radius: 24,
                         child: Icon(
                           Icons.water_drop,
+                          size: 32,
                           color: AppColors.humSensorColor,
                         ),
                       ),
-                      HeightFiller(4),
-                      Text('47 %', style: AppTextStyle.bodyTextSubtitle)
+                      WidthFiller(8),
+                      Flexible(
+                        child: Text('47 %', style: AppTextStyle.bodyTextTitle),
+                      ),
                     ],
                   ),
                 ],
               ),
             ),
             const HeightFiller(8),
-            const InfoSensorCard(
+            // TODO(RonFall): Сделать вызов модалки
+            InfoSensorCard(
               sensorTitle: 'Уровень воды в баке',
-              icon: Icon(
+              icon: const Icon(
                 Icons.waves_rounded,
+                size: 32,
                 color: AppColors.levelSensorColor,
               ),
               sensorValue: '106 л.',
+              onPressed: () {},
             ),
             const HeightFiller(8),
-            const InfoSensorCard(
+            // TODO(RonFall): Сделать вызов модалки
+            InfoSensorCard(
               sensorTitle: 'Уровень освещенности',
-              icon: Icon(
+              icon: const Icon(
                 Icons.light_mode_rounded,
-                color: Color.fromARGB(255, 243, 252, 244),
+                size: 32,
+                color: AppColors.lightSensorColor,
               ),
-              sensorValue: '1200 люкс',
+              sensorValue: '380 лк',
+              onPressed: () {},
+            ),
+            const HeightFiller(8),
+            InfoSensorCard(
+              sensorTitle: 'Уровень CO2',
+              icon: const Icon(
+                Icons.co2_rounded,
+                size: 32,
+                color: AppColors.co2SensorColor,
+              ),
+              sensorValue: '1204 ppm',
+              onPressed: () {},
             ),
           ],
         ),
