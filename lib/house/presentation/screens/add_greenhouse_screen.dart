@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
@@ -50,7 +49,6 @@ class AddGreenhouseScreen extends StatelessWidget {
   }
 
   void showAfterDelay(BuildContext context) {
-    const greenhouseName = 'Вы хотите добавить теплицу\nАнтоновская?';
     LoadingScreen.instance.show(context: context);
     Future.delayed(const Duration(milliseconds: 500), () {
       LoadingScreen.instance.hide();
