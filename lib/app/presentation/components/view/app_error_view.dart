@@ -10,48 +10,46 @@ class AppErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              'Не удалось загрузить данные\nс сервера. Проверьте свое'
-              '\nсоединение, либо обратитесь к\nадминистратору.',
-              textAlign: TextAlign.center,
-              style: AppTextStyle.errorViewTextStyle,
-            ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'Не удалось загрузить данные\nс сервера. Проверьте свое'
+            '\nсоединение, либо обратитесь к\nадминистратору.',
+            textAlign: TextAlign.center,
+            style: AppTextStyle.errorViewTextStyle,
           ),
-          const HeightFiller(16),
-          AppButton(
-            height: 48,
-            width: screenWidth(context) / 1.5,
-            textStyle: AppTextStyle.buttonTextStyle,
-            buttonColor: AppColors.accentColor,
-            onPressed: onPressed,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Flexible(
-                  child: Text(
-                    'Попробовать еще раз',
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    style: AppTextStyle.buttonTextStyle,
-                  ),
+        ),
+        const HeightFiller(16),
+        AppButton(
+          height: 48,
+          width: screenWidth(context) / 1.5,
+          textStyle: AppTextStyle.buttonTextStyle,
+          buttonColor: AppColors.accentColor,
+          onPressed: onPressed,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Flexible(
+                child: Text(
+                  'Попробовать еще раз',
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  style: AppTextStyle.buttonTextStyle,
                 ),
-                WidthFiller(8),
-                Icon(
-                  Icons.restart_alt_rounded,
-                  size: 22,
-                  color: AppColors.white,
-                ),
-              ],
-            ),
+              ),
+              WidthFiller(8),
+              Icon(
+                Icons.restart_alt_rounded,
+                size: 22,
+                color: AppColors.white,
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

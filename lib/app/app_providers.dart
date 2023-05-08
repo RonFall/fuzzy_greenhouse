@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fuzzy_greenhouse/auth/data/repositories/auth_service.dart';
 import 'package:fuzzy_greenhouse/auth/domain/auth_riverpod.dart';
-
-/// Slider
-final sliderProvider = StateProvider<double>((ref) => 0);
+import 'package:fuzzy_greenhouse/house/data/models/devices_data.dart';
+import 'package:fuzzy_greenhouse/house/domain/devices_riverpod.dart';
 
 /// TextEditingController
 final loginAuthProvider = Provider.autoDispose<TextEditingController>((ref) {
@@ -21,16 +22,17 @@ final passAuthProvider = Provider.autoDispose<TextEditingController>((ref) {
 
 /// Auth Providers
 final userProvider = Provider<User?>(
-  (ref) {
-    final authProvider = ref.watch(authStateProvider);
-    if (authProvider.hasValue) {
-      return authProvider.value;
-    }
-    return null;
-  },
+  (ref) => ref.watch(authStateProvider).value,
 );
 
 final authStateProvider =
     StateNotifierProvider<AuthStateNotifier, AsyncValue<User?>>(
-  (ref) => AuthStateNotifier(),
+  (_) => AuthStateNotifier(service: AuthService()),
 );
+
+/// Devices Providers
+final devicesStateProvider =
+    StateNotifierProvider<DevicesStateNotifier, AsyncValue<DevicesData?>>((_) {
+  return DevicesStateNotifier(database: FirebaseDatabase.instance.ref())
+    ..getDevicesData();
+});

@@ -30,28 +30,3 @@ class MyApp extends ConsumerWidget {
     );
   }
 }
-
-// class SensorData extends StatelessWidget {
-//   const SensorData({
-//     Key? key,
-//     required this.path,
-//     required this.dataWidget,
-//   }) : super(key: key);
-//
-//   final String path;
-//   final Widget Function(String) dataWidget;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<GreenhouseSensorsCubit, data.AsyncData<String>>(
-//       bloc: GreenhouseSensorsCubit()..getSensorsData(path: path),
-//       builder: (context, state) {
-//         return state.when(
-//           onLoading: () => const CircularProgressIndicator(),
-//           onError: (error) => Text(error),
-//           onData: dataWidget,
-//         );
-//       },
-//     );
-//   }
-// }

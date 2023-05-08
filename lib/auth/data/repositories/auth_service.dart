@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
+/// Сервис аутентификации Firebase
 class AuthService {
   User? get user => FirebaseAuth.instance.currentUser;
 
@@ -21,6 +22,10 @@ class AuthService {
 
   Future<void> logOut() async => FirebaseAuth.instance.signOut();
 
+  /// Сравнивает ошибку, которая приходит с Firebase и возвращает строку с
+  /// сообщением.
+  ///
+  /// [error] - ошибка из ответа по [FirebaseAuthException]
   static String mapFirebaseError(Object? error) {
     if (error is FirebaseAuthException) {
       if (error.code == 'unknown') {

@@ -9,7 +9,6 @@ import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
 import 'package:fuzzy_greenhouse/app/presentation/assets.dart';
 import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.dart';
-import 'package:fuzzy_greenhouse/app/presentation/components/view/app_error_view.dart';
 import 'package:fuzzy_greenhouse/app/presentation/screens/loading_dialog_screen.dart';
 import 'package:fuzzy_greenhouse/auth/presentation/screens/auth_screen.dart';
 import 'package:fuzzy_greenhouse/house/presentation/screens/add_greenhouse_screen.dart';
@@ -24,14 +23,10 @@ class HouseScreen extends ConsumerWidget {
     ref.listen<AsyncValue<User?>>(authStateProvider, (prev, next) {
       final uid = next.value?.uid;
 
-      if (next.isLoading) {
-        LoadingScreen.instance.show(context: context);
-      }
-      if (!next.isLoading) {
-        LoadingScreen.instance.hide();
-      }
+      if (next.isLoading) LoadingScreen.instance.show(context: context);
+      if (!next.isLoading) LoadingScreen.instance.hide();
 
-      /// Если пользователь вышел - заменяем текущий экран на экран авторизации
+      // Если пользователь вышел - заменяем текущий экран на экран авторизации
       if (uid == null) {
         AppNavigator.replaceScreen(context, screen: const AuthScreen());
       }
@@ -62,52 +57,34 @@ class HouseScreen extends ConsumerWidget {
           )
         ],
       ),
-      body: AppErrorView(
-        onPressed: () {
+      body: InkWell(
+        onTap: () {
           AppNavigator.pushScreen(
             context,
             screen: const HouseSensorsInfoScreen(),
           );
         },
-      ),
-    );
-  }
-}
-
-class HouseBodyView extends StatelessWidget {
-  const HouseBodyView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: 4,
-      separatorBuilder: (context, index) => const Divider(height: 0),
-      itemBuilder: (context, index) {
-        // TODO(RonFall): Добавить вызов при переходе в инфо о теплице
-        return InkWell(
-          onTap: () {},
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: ListTile(
-              leading: CircleAvatar(
-                backgroundColor: AppColors.inputFieldColor,
-                radius: 24,
-                child: SvgPicture.asset(
-                  AppVectorAssets.greenhouseItem,
-                  height: 24,
-                  width: 24,
-                ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: ListTile(
+            leading: CircleAvatar(
+              backgroundColor: AppColors.inputFieldColor,
+              radius: 24,
+              child: SvgPicture.asset(
+                AppVectorAssets.greenhouseItem,
+                height: 24,
+                width: 24,
               ),
-              title: const AutoSizeText(
-                'Антоновская',
-                maxLines: 1,
-                style: AppTextStyle.bodyTextSubtitleThin,
-              ),
-              trailing: const Icon(Icons.arrow_forward_ios_rounded),
             ),
+            title: const AutoSizeText(
+              'Антоновская',
+              maxLines: 1,
+              style: AppTextStyle.bodyTextSubtitleThin,
+            ),
+            trailing: const Icon(Icons.arrow_forward_ios_rounded),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

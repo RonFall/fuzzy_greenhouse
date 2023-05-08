@@ -6,13 +6,16 @@ import 'package:fuzzy_greenhouse/app/presentation/components/app_modals.dart';
 import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.dart';
 
 class HouseSensorsModals {
-  static Future<T?> showTempHumidModal<T>(BuildContext context) {
+  static Future<T?> showTempHumidModal<T>(BuildContext context, {
+    required int temp,
+    required int hum,
+  }) {
     final listParams = [
-      'Температура воздуха внутри: 27 °C',
-      'Влажность воздуха внутри: 47 %',
-      'Температура воздуха снаружи: 12 °C',
-      'Влажность воздуха снаружи: 34 %',
-      'Последнее измерение: 11:06 05.01.23'
+      'Температура воздуха внутри: $temp °C',
+      'Влажность воздуха внутри: $hum %',
+      'Температура воздуха снаружи: 0 °C',
+      'Влажность воздуха снаружи: 0 %',
+      'Последнее измерение: 00:00 00.00.00'
     ];
     return AppModals.showModal<T?>(
       context,
@@ -32,7 +35,7 @@ class HouseSensorsModals {
               ),
             ),
             const AutoSizeText('Сводка', style: AppTextStyle.bodyTextTitle),
-            for (String param in listParams)
+            for (final param in listParams)
               AutoSizeText(
                 param,
                 maxLines: 1,
@@ -40,9 +43,9 @@ class HouseSensorsModals {
               ),
             const AutoSizeText('Контроль', style: AppTextStyle.bodyTextTitle),
             ..._sliderWidget(
-              deviceText: 'Обороты выдува',
-              deviceTextValue: '1200 об/мин',
-              currentValue: 38,
+              deviceText: 'Обороты вентилятора',
+              deviceTextValue: '0 об/мин',
+              currentValue: 0,
               icon: InkWell(
                 onTap: () {},
                 child: const Icon(
@@ -54,8 +57,8 @@ class HouseSensorsModals {
             ),
             ..._sliderWidget(
               deviceText: 'Температура нагревателя',
-              deviceTextValue: '42 °C',
-              currentValue: 56,
+              deviceTextValue: '0 °C',
+              currentValue: 0,
               onChanged: (value) {},
             ),
           ].divideTiles(divider: const HeightFiller(12)).toList(),

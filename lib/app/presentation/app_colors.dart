@@ -10,7 +10,7 @@ class AppColors {
   /// VIEW COLORS
   static const bodyColor = Color(0xFFE3FEFF);
   static const cardColor = Color(0xFFBAD2D3);
-  static const circleAvatarColor = Color(0xFFD6E5F1);
+  static const circleAvatarColor = Color(0xFFCCE0EF);
   static const infoCardColor = Color(0xFFE2F1F7);
 
   /// TEXT FIELD COLORS

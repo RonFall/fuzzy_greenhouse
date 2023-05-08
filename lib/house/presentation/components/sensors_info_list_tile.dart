@@ -4,7 +4,6 @@ import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
 import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.dart';
 
-
 class InfoListTile extends StatelessWidget {
   const InfoListTile({
     Key? key,
