@@ -3,16 +3,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fuzzy_greenhouse/house/data/models/devices_data.dart';
 
 class DevicesStateNotifier extends StateNotifier<AsyncValue<DevicesData?>> {
-  DevicesStateNotifier({required this.database}) : super(const AsyncData(null));
+  DevicesStateNotifier({required DatabaseReference database})
+      : _database = database,
+        super(const AsyncData(null));
 
-  final DatabaseReference database;
+  final DatabaseReference _database;
 
   Future<void> getDevicesData() async {
     if (state.isLoading) return;
 
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      final response = await database.once();
+      final response = await _database.once();
       final data = response.snapshot.child('devices/antonov').value as Map;
 
       return DevicesData(
