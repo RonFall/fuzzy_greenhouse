@@ -1,44 +1,39 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
-import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.dart';
 
 class InfoSensorCard extends StatelessWidget {
   const InfoSensorCard({
-    Key? key,
     required this.sensorTitle,
+    this.circleAvatarRadius = 24,
+    this.child = const SizedBox.shrink(),
     this.icon,
     this.sensorValue,
-    this.circleAvatarRadius = 24,
     this.onPressed,
-    this.child = const SizedBox.shrink(),
-  }) : super(key: key);
+    super.key,
+  });
 
   const InfoSensorCard.custom({
-    Key? key,
     required this.sensorTitle,
     required this.child,
     this.circleAvatarRadius = 24,
     this.onPressed,
+    super.key,
   })  : icon = null,
-        sensorValue = null,
-        super(key: key);
+        sensorValue = null;
 
   final String sensorTitle;
-
-  final Widget? icon;
-
-  final String? sensorValue;
-
   final double circleAvatarRadius;
-
-  final VoidCallback? onPressed;
-
   final Widget child;
+  final Widget? icon;
+  final String? sensorValue;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
+    final icon = this.icon;
+    final sensorValue = this.sensorValue;
+
     return InkWell(
       onTap: onPressed,
       child: Container(
@@ -58,13 +53,13 @@ class InfoSensorCard extends StatelessWidget {
             children: [
               Align(
                 alignment: Alignment.centerLeft,
-                child: AutoSizeText(
+                child: Text(
                   sensorTitle,
                   maxLines: 1,
                   style: AppTextStyle.bodyTextSubtitle,
                 ),
               ),
-              const HeightFiller(12),
+              const SizedBox(height: 12),
               if (icon != null && sensorValue != null)
                 Row(
                   children: [
@@ -73,8 +68,8 @@ class InfoSensorCard extends StatelessWidget {
                       radius: circleAvatarRadius,
                       child: icon,
                     ),
-                    const WidthFiller(8),
-                    Text(sensorValue!, style: AppTextStyle.bodyTextTitle)
+                    const SizedBox(width: 8),
+                    Text(sensorValue, style: AppTextStyle.bodyTextTitle)
                   ],
                 )
               else

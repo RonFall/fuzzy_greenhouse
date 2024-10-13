@@ -2,36 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
 
-class HeightFiller extends StatelessWidget {
-  const HeightFiller(this.height, {Key? key}) : super(key: key);
-
-  final double height;
-
-  @override
-  Widget build(BuildContext context) => SizedBox(key: key, height: height);
-}
-
-class WidthFiller extends StatelessWidget {
-  const WidthFiller(this.width, {Key? key}) : super(key: key);
-
-  final double width;
-
-  @override
-  Widget build(BuildContext context) => SizedBox(key: key, width: width);
-}
-
 class AppButton extends StatelessWidget {
   const AppButton({
-    Key? key,
+    this.textStyle = AppTextStyle.buttonTextStyle,
+    this.buttonColor = AppColors.accentColor,
     this.height,
     this.width,
     this.text,
     this.buttonStyle,
     this.child,
     this.onPressed,
-    this.textStyle = AppTextStyle.buttonTextStyle,
-    this.buttonColor = AppColors.accentColor,
-  }) : super(key: key);
+    super.key,
+  });
+
+  /// Стиль текста кнопки
+  final TextStyle textStyle;
+
+  /// Цвет кнопки
+  final Color buttonColor;
 
   /// Высота кнопки
   final double? height;
@@ -51,14 +39,10 @@ class AppButton extends StatelessWidget {
   /// Событие при нажатии
   final VoidCallback? onPressed;
 
-  /// Стиль текста кнопки
-  final TextStyle textStyle;
-
-  /// Цвет кнопки
-  final Color buttonColor;
-
   @override
   Widget build(BuildContext context) {
+    final text = this.text;
+
     return SizedBox(
       height: height,
       width: width,
@@ -67,12 +51,12 @@ class AppButton extends StatelessWidget {
         onPressed: onPressed,
         style: buttonStyle ??
             ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(buttonColor),
-              shape: MaterialStateProperty.all(
+              backgroundColor: WidgetStateProperty.all(buttonColor),
+              shape: WidgetStateProperty.all(
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
             ),
-        child: text != null ? Text(text!, style: textStyle) : child,
+        child: text != null ? Text(text, style: textStyle) : child,
       ),
     );
   }
@@ -86,12 +70,12 @@ Size getScreenSize(BuildContext context) {
   return MediaQuery.of(context).size;
 }
 
-/// Высота конкретного экарана
+/// Высота конкретного экрана
 double screenHeight(BuildContext context) {
   return getScreenSize(context).height;
 }
 
-/// Ширина конкретного экарана
+/// Ширина конкретного экрана
 double screenWidth(BuildContext context) {
   return getScreenSize(context).width;
 }

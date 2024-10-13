@@ -26,24 +26,17 @@ class AuthService {
   /// сообщением.
   ///
   /// [error] - ошибка из ответа по [FirebaseAuthException]
-  static String mapFirebaseError(Object? error) {
+  static String mapFirebaseError(dynamic error) {
     if (error is FirebaseAuthException) {
-      if (error.code == 'unknown') {
-        return 'поля с логином и/или паролем пустые!';
-      }
-      if (error.code == 'invalid-email') {
-        return 'введен неверный формат Email!';
-      }
-      if (error.code == 'user-not-found') {
-        return 'пользователь с такими данными не найден!';
-      }
-      if (error.code == 'too-many-requests') {
-        return 'слишком много запросов!';
-      }
-      if (error.code == 'wrong-password') {
-        return 'введен неверный Email и/или пароль';
-      }
+      return switch (error.code) {
+        'unknown' => 'поля с логином и/или паролем пустые!',
+        'invalid-email' => 'введен неверный формат Email!',
+        'user-not-found' => 'пользователь с такими данными не найден!',
+        'wrong-password' => 'введен неверный Email и/или пароль',
+        _ => 'неизвестное состояние.',
+      };
     }
+
     return 'неизвестное состояние.';
   }
 }

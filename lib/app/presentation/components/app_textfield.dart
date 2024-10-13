@@ -3,7 +3,6 @@ import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 
 class AppTextField extends StatefulWidget {
   const AppTextField({
-    Key? key,
     this.next = false,
     this.fieldAction = TextInputAction.done,
     this.keyboardType = TextInputType.name,
@@ -15,7 +14,8 @@ class AppTextField extends StatefulWidget {
     this.onComplete,
     this.onSaved,
     this.onChanged,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// Переключать фокус с одного текстового поля на другое
   final bool next;
@@ -55,18 +55,17 @@ class AppTextField extends StatefulWidget {
 }
 
 class _AppTextFieldState extends State<AppTextField> {
-  late FocusNode fieldNode;
-  late bool hasTapped;
+  late final FocusNode _fieldNode;
 
   @override
   void initState() {
-    fieldNode = FocusNode();
     super.initState();
+    _fieldNode = FocusNode();
   }
 
   @override
   void dispose() {
-    fieldNode.dispose();
+    _fieldNode.dispose();
     super.dispose();
   }
 
@@ -74,7 +73,7 @@ class _AppTextFieldState extends State<AppTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      focusNode: fieldNode,
+      focusNode: _fieldNode,
       textInputAction: widget.fieldAction,
       style: TextStyle(color: widget.textColor),
       cursorColor: widget.inputFieldBorderColor,
@@ -87,9 +86,7 @@ class _AppTextFieldState extends State<AppTextField> {
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(color: widget.inputFieldBorderColor, width: 1),
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
         fillColor: widget.inputFieldColor,
         filled: true,
       ),

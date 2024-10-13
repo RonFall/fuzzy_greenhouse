@@ -1,21 +1,17 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
-import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.dart';
 
 class InfoListTile extends StatelessWidget {
   const InfoListTile({
-    Key? key,
     required this.title,
     required this.icon,
     required this.trailing,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String title;
-
   final Widget icon;
-
   final Widget trailing;
 
   @override
@@ -30,9 +26,9 @@ class InfoListTile extends StatelessWidget {
               backgroundColor: AppColors.circleAvatarColor,
               child: icon,
             ),
-            const WidthFiller(16),
+            const SizedBox(width: 16),
             Flexible(
-              child: AutoSizeText(
+              child: Text(
                 title,
                 maxLines: 1,
                 style: AppTextStyle.bodyTextSubtitle,

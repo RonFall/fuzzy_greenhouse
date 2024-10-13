@@ -7,7 +7,7 @@ import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.da
 import 'package:fuzzy_greenhouse/app/presentation/screens/loading_dialog_screen.dart';
 
 class AddGreenhouseScreen extends StatelessWidget {
-  const AddGreenhouseScreen({Key? key}) : super(key: key);
+  const AddGreenhouseScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,21 +26,21 @@ class AddGreenhouseScreen extends StatelessWidget {
               height: 128,
               width: 128,
             ),
-            const HeightFiller(16),
+            const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: AppTextField(
                 hintText: 'ID теплицы',
                 fieldAction: TextInputAction.done,
-                onComplete: () => showAfterDelay(context),
+                onComplete: () => _showAfterDelay(context),
               ),
             ),
-            const HeightFiller(16),
+            const SizedBox(height: 16),
             AppButton(
               height: 48,
               width: screenWidth(context) / 1.5,
               text: 'Запросить доступ',
-              onPressed: () => showAfterDelay(context),
+              onPressed: () => _showAfterDelay(context),
             )
           ],
         ),
@@ -48,8 +48,8 @@ class AddGreenhouseScreen extends StatelessWidget {
     );
   }
 
-  void showAfterDelay(BuildContext context) {
-    LoadingScreen.instance.show(context: context);
+  void _showAfterDelay(BuildContext context) {
+    LoadingScreen.instance.show(context);
     Future.delayed(const Duration(milliseconds: 500), () {
       LoadingScreen.instance.hide();
     });

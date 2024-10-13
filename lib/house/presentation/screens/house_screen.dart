@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,7 +14,7 @@ import 'package:fuzzy_greenhouse/house/presentation/screens/add_greenhouse_scree
 import 'package:fuzzy_greenhouse/house/presentation/screens/house_sensors_info_screen.dart';
 
 class HouseScreen extends ConsumerWidget {
-  const HouseScreen({Key? key}) : super(key: key);
+  const HouseScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,14 +22,20 @@ class HouseScreen extends ConsumerWidget {
     ref.listen<AsyncValue<User?>>(authStateProvider, (prev, next) {
       final uid = next.value?.uid;
 
-      if (next.isLoading) LoadingScreen.instance.show(context: context);
-      if (!next.isLoading) LoadingScreen.instance.hide();
+      if (next.isLoading) {
+        LoadingScreen.instance.show(context);
+      } else {
+        LoadingScreen.instance.hide();
+      }
 
       // Если пользователь вышел - заменяем текущий экран на экран авторизации
       if (uid == null) {
         AppNavigator.replaceScreen(context, screen: const AuthScreen());
       }
     });
+
+    final email = user?.email;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.accentColor,
@@ -38,12 +43,12 @@ class HouseScreen extends ConsumerWidget {
           children: [
             CircleAvatar(
               backgroundColor: AppColors.cardColor,
-              child: Text('${user?.email?[0]}'),
+              child: Text(email != null ? email[0] : 'G'),
             ),
-            const WidthFiller(12),
+            const SizedBox(width: 12),
             Flexible(
-              child: AutoSizeText(
-                '${user?.email}',
+              child: Text(
+                email ?? 'guest',
                 maxLines: 1,
                 style: AppTextStyle.appBarStyle,
               ),
@@ -58,12 +63,10 @@ class HouseScreen extends ConsumerWidget {
         ],
       ),
       body: InkWell(
-        onTap: () {
-          AppNavigator.pushScreen(
-            context,
-            screen: const HouseSensorsInfoScreen(),
-          );
-        },
+        onTap: () => AppNavigator.pushScreen(
+          context,
+          screen: const HouseSensorsInfoScreen(),
+        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: ListTile(
@@ -76,7 +79,7 @@ class HouseScreen extends ConsumerWidget {
                 width: 24,
               ),
             ),
-            title: const AutoSizeText(
+            title: const Text(
               'Антоновская',
               maxLines: 1,
               style: AppTextStyle.bodyTextSubtitleThin,
@@ -89,8 +92,10 @@ class HouseScreen extends ConsumerWidget {
   }
 }
 
+@visibleForTesting
 class HouseEmptyView extends StatelessWidget {
-  const HouseEmptyView({Key? key}) : super(key: key);
+  @visibleForTesting
+  const HouseEmptyView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -99,25 +104,23 @@ class HouseEmptyView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(AppAssets.greenhouseEmptyScreen, height: 128, width: 128),
-          const HeightFiller(16),
+          const SizedBox(height: 16),
           Text(
             'У вас нет добавленных\nтеплиц.',
             textAlign: TextAlign.center,
             style: AppTextStyle.appBarStyle.copyWith(color: AppColors.black),
           ),
-          const HeightFiller(16),
+          const SizedBox(height: 16),
           AppButton(
             height: 48,
             width: screenWidth(context) / 1.5,
             text: 'Добавить',
             textStyle: AppTextStyle.buttonTextStyle,
             buttonColor: AppColors.accentColor,
-            onPressed: () {
-              AppNavigator.pushScreen(
-                context,
-                screen: const AddGreenhouseScreen(),
-              );
-            },
+            onPressed: () => AppNavigator.pushScreen(
+              context,
+              screen: const AddGreenhouseScreen(),
+            ),
           ),
         ],
       ),

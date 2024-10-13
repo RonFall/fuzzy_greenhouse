@@ -1,18 +1,32 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-part 'devices_data.freezed.dart';
-
-@freezed
-class DevicesData with _$DevicesData {
+class GreenhouseClimateData {
   /// Показатели датчиков тепличного хозяйства
-  const factory DevicesData({
-    /// Влажность
-    int? humidity,
+  const GreenhouseClimateData({
+    this.humidity,
+    this.illumination,
+    this.temperature,
+  });
 
-    /// Освещенность
-    int? illumination,
+  /// Влажность
+  final int? humidity;
 
-    /// Температура
-    int? temperature,
-  }) = _DevicesData;
+  /// Освещенность
+  final int? illumination;
+
+  /// Температура
+  final int? temperature;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GreenhouseClimateData &&
+          runtimeType == other.runtimeType &&
+          illumination == other.illumination;
+
+  @override
+  int get hashCode => illumination.hashCode;
+
+  @override
+  String toString() {
+    return 'GreenhouseClimateData{humidity: $humidity, illumination: $illumination, temperature: $temperature}';
+  }
 }

@@ -14,14 +14,16 @@ import 'package:fuzzy_greenhouse/auth/data/repositories/auth_service.dart';
 import 'package:fuzzy_greenhouse/house/presentation/screens/house_screen.dart';
 
 class AuthScreen extends ConsumerWidget {
-  const AuthScreen({Key? key}) : super(key: key);
+  const AuthScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final loginController = ref.watch(loginAuthProvider);
     final passController = ref.watch(passAuthProvider);
+    final login = loginController.text.trim();
+    final pass = passController.text.trim();
+    _onAuthListen(context, ref: ref);
 
-    onAuthListen(context, ref);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.white,
@@ -35,7 +37,7 @@ class AuthScreen extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(AppAssets.authLogo, height: 196, width: 196),
-            const HeightFiller(16),
+            const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: AppTextField(
@@ -46,23 +48,21 @@ class AuthScreen extends ConsumerWidget {
                 next: true,
               ),
             ),
-            const HeightFiller(8),
+            const SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: AppTextField(
                 controller: passController,
                 hintText: 'Пароль',
-                onComplete: () {
-                  onCompleteInput(
-                    context,
-                    ref,
-                    email: loginController.text.trim(),
-                    pass: passController.text.trim(),
-                  );
-                },
+                onComplete: () => _onCompleteInput(
+                  context,
+                  ref: ref,
+                  email: login,
+                  pass: pass,
+                ),
               ),
             ),
-            const HeightFiller(24),
+            const SizedBox(height: 24),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: AppButton(
@@ -71,14 +71,12 @@ class AuthScreen extends ConsumerWidget {
                 text: 'Войти',
                 textStyle: AppTextStyle.buttonTextStyle,
                 buttonColor: AppColors.accentColor,
-                onPressed: () {
-                  onCompleteInput(
-                    context,
-                    ref,
-                    email: loginController.text.trim(),
-                    pass: passController.text.trim(),
-                  );
-                },
+                onPressed: () => _onCompleteInput(
+                  context,
+                  ref: ref,
+                  email: login,
+                  pass: pass,
+                ),
               ),
             ),
           ],
@@ -87,9 +85,9 @@ class AuthScreen extends ConsumerWidget {
     );
   }
 
-  void onCompleteInput(
-    BuildContext context,
-    WidgetRef ref, {
+  void _onCompleteInput(
+    BuildContext context, {
+    required WidgetRef ref,
     required String email,
     required String pass,
   }) {
@@ -97,24 +95,20 @@ class AuthScreen extends ConsumerWidget {
     ref.read(authStateProvider.notifier).logIn(email: email, password: pass);
   }
 
-  void onAuthListen(BuildContext context, WidgetRef ref) {
+  void _onAuthListen(BuildContext context, {required WidgetRef ref}) {
     ref.listen<AsyncValue<User?>>(authStateProvider, (previous, next) {
-      if (next.isLoading) {
-        LoadingScreen.instance.show(context: context);
-      }
+      if (next.isLoading) LoadingScreen.instance.show(context);
 
       if (next.hasError) {
-        if (previous?.isLoading == true) {
-          LoadingScreen.instance.hide();
-        }
+        if (previous?.isLoading ?? false) LoadingScreen.instance.hide();
 
-        showFlushBar(
+        showSnackBar(
           context,
           message: 'Ошибка: ${(AuthService.mapFirebaseError(next.error))}',
         );
       }
       if (next.hasValue) {
-        if (previous?.isLoading == true) LoadingScreen.instance.hide();
+        if (previous?.isLoading ?? false) LoadingScreen.instance.hide();
 
         AppNavigator.replaceScreen(context, screen: const HouseScreen());
       }

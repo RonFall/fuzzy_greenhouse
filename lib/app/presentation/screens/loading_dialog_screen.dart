@@ -3,20 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
-import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.dart';
-
-typedef CloseLoadingScreen = bool Function();
-typedef UpdateLoadingScreen = bool Function(String text);
 
 @immutable
-class LoadingScreenController {
-  final CloseLoadingScreen close;
-  final UpdateLoadingScreen update;
-
+final class LoadingScreenController {
   const LoadingScreenController({
     required this.close,
     required this.update,
   });
+
+  final VoidCallback close;
+  final ValueChanged<String> update;
 }
 
 class LoadingScreen {
@@ -26,31 +22,25 @@ class LoadingScreen {
 
   static final LoadingScreen instance = _shared;
 
-  LoadingScreenController? controller;
+  LoadingScreenController? _controller;
 
-  void show({required BuildContext context, String text = 'Подождите...'}) {
-    if (controller?.update(text) ?? false) {
-      return;
-    } else {
-      controller = showOverlay(context: context, text: text);
-    }
+  void show(BuildContext context, {String text = 'Подождите...'}) {
+    _controller = showOverlay(context, text: text);
   }
 
   void hide() {
-    controller?.close();
-    controller = null;
+    _controller?.close();
+    _controller = null;
   }
 
-  LoadingScreenController? showOverlay({
-    required BuildContext context,
+  LoadingScreenController? showOverlay(
+    BuildContext context, {
     required String text,
   }) {
     final textController = StreamController<String>();
     textController.add(text);
 
     final state = Overlay.of(context);
-    if (state == null) return null;
-
     final overlay = OverlayEntry(
       builder: (context) {
         return Material(
@@ -71,7 +61,7 @@ class LoadingScreen {
                       const CircularProgressIndicator(
                         color: AppColors.accentColor,
                       ),
-                      const HeightFiller(16),
+                      const SizedBox(height: 16),
                       Text(text, style: AppTextStyle.alertTextStyle)
                     ],
                   ),
@@ -89,12 +79,8 @@ class LoadingScreen {
       close: () {
         textController.close();
         overlay.remove();
-        return true;
       },
-      update: (text) {
-        textController.add(text);
-        return true;
-      },
+      update: (text) => textController.add(text),
     );
   }
 }

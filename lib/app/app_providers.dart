@@ -11,12 +11,14 @@ import 'package:fuzzy_greenhouse/house/domain/devices_riverpod.dart';
 final loginAuthProvider = Provider.autoDispose<TextEditingController>((ref) {
   final controller = TextEditingController();
   ref.onDispose(() => controller.dispose());
+
   return controller;
 });
 
 final passAuthProvider = Provider.autoDispose<TextEditingController>((ref) {
   final controller = TextEditingController();
   ref.onDispose(() => controller.dispose());
+
   return controller;
 });
 
@@ -25,14 +27,16 @@ final userProvider = Provider<User?>(
   (ref) => ref.watch(authStateProvider).value,
 );
 
-final authStateProvider =
-    StateNotifierProvider<AuthStateNotifier, AsyncValue<User?>>(
-  (_) => AuthStateNotifier(service: AuthService()),
+final authStateProvider = AsyncNotifierProvider<AuthStateNotifier, User?>(
+  () => AuthStateNotifier(service: AuthService()),
 );
 
 /// Devices Providers
 final devicesStateProvider =
-    StateNotifierProvider<DevicesStateNotifier, AsyncValue<DevicesData?>>((_) {
-  return DevicesStateNotifier(database: FirebaseDatabase.instance.ref())
-    ..getDevicesData();
-});
+    AsyncNotifierProvider<DevicesStateNotifier, GreenhouseClimateData?>(
+  () {
+    return DevicesStateNotifier(
+      database: FirebaseDatabase.instance.ref(),
+    )..getDevicesData();
+  },
+);

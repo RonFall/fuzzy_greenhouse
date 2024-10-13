@@ -4,7 +4,10 @@ import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
 import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.dart';
 
 class AppErrorView extends StatelessWidget {
-  const AppErrorView({Key? key, this.onPressed}) : super(key: key);
+  const AppErrorView({
+    this.onPressed,
+    super.key,
+  });
 
   final VoidCallback? onPressed;
 
@@ -22,16 +25,16 @@ class AppErrorView extends StatelessWidget {
             style: AppTextStyle.errorViewTextStyle,
           ),
         ),
-        const HeightFiller(16),
+        const SizedBox(height: 16),
         AppButton(
           height: 48,
           width: screenWidth(context) / 1.5,
           textStyle: AppTextStyle.buttonTextStyle,
           buttonColor: AppColors.accentColor,
           onPressed: onPressed,
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Flexible(
                 child: Text(
                   'Попробовать еще раз',
@@ -40,12 +43,8 @@ class AppErrorView extends StatelessWidget {
                   style: AppTextStyle.buttonTextStyle,
                 ),
               ),
-              WidthFiller(8),
-              Icon(
-                Icons.restart_alt_rounded,
-                size: 22,
-                color: AppColors.white,
-              ),
+              SizedBox(width: 8),
+              Icon(Icons.restart_alt_rounded, size: 22, color: AppColors.white),
             ],
           ),
         ),

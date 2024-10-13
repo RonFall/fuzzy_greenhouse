@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
@@ -6,7 +5,8 @@ import 'package:fuzzy_greenhouse/app/presentation/components/app_modals.dart';
 import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.dart';
 
 class HouseSensorsModals {
-  static Future<T?> showTempHumidModal<T>(BuildContext context, {
+  static Future<T?> showTempHumidModal<T>(
+    BuildContext context, {
     required int temp,
     required int hum,
   }) {
@@ -17,6 +17,7 @@ class HouseSensorsModals {
       'Влажность воздуха снаружи: 0 %',
       'Последнее измерение: 00:00 00.00.00'
     ];
+
     return AppModals.showModal<T?>(
       context,
       child: Padding(
@@ -26,7 +27,7 @@ class HouseSensorsModals {
           children: [
             Align(
               alignment: Alignment.center,
-              child: AutoSizeText(
+              child: Text(
                 'Температура и влажность',
                 maxLines: 1,
                 style: AppTextStyle.appBarStyle.copyWith(
@@ -34,14 +35,14 @@ class HouseSensorsModals {
                 ),
               ),
             ),
-            const AutoSizeText('Сводка', style: AppTextStyle.bodyTextTitle),
+            const Text('Сводка', style: AppTextStyle.bodyTextTitle),
             for (final param in listParams)
-              AutoSizeText(
+              Text(
                 param,
                 maxLines: 1,
                 style: AppTextStyle.bodyTextSubtitleThin,
               ),
-            const AutoSizeText('Контроль', style: AppTextStyle.bodyTextTitle),
+            const Text('Контроль', style: AppTextStyle.bodyTextTitle),
             ..._sliderWidget(
               deviceText: 'Обороты вентилятора',
               deviceTextValue: '0 об/мин',
@@ -53,15 +54,13 @@ class HouseSensorsModals {
                   color: AppColors.infoButtonColor,
                 ),
               ),
-              onChanged: (value) {},
             ),
             ..._sliderWidget(
               deviceText: 'Температура нагревателя',
               deviceTextValue: '0 °C',
               currentValue: 0,
-              onChanged: (value) {},
             ),
-          ].divideTiles(divider: const HeightFiller(12)).toList(),
+          ].divideTiles(divider: const SizedBox(height: 12)).toList(),
         ),
       ),
     );
@@ -70,11 +69,11 @@ class HouseSensorsModals {
   static List<Widget> _sliderWidget({
     required String deviceText,
     required String deviceTextValue,
-    required void Function(double value) onChanged,
-    Widget? icon,
     double currentValue = 42,
     double minValue = 0,
     double maxValue = 100,
+    Widget? icon,
+    ValueChanged<double>? onChanged,
   }) {
     return [
       Row(
@@ -82,8 +81,10 @@ class HouseSensorsModals {
           Flexible(
             child: Text(deviceText, style: AppTextStyle.bodyTextSubtitleThin),
           ),
-          if (icon != null) const WidthFiller(4),
-          if (icon != null) icon,
+          if (icon != null) ...[
+            const SizedBox(width: 4),
+            icon,
+          ]
         ],
       ),
       Row(
@@ -102,7 +103,7 @@ class HouseSensorsModals {
           ),
           Flexible(
             flex: 2,
-            child: AutoSizeText(
+            child: Text(
               deviceTextValue,
               maxLines: 1,
               style: AppTextStyle.bodyTextSubtitle,

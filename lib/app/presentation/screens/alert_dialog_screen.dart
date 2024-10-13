@@ -58,8 +58,10 @@ class AlertScreen {
       child: SizedBox(
         height: 48,
         width: double.maxFinite,
-        child:
-            ConfirmButton(buttonText: confirmButtonText, onPressed: onConfirm),
+        child: ConfirmButton(
+          buttonText: confirmButtonText,
+          onPressed: onConfirm,
+        ),
       ),
     );
   }
@@ -78,7 +80,7 @@ class AlertScreen {
             children: [
               GestureDetector(
                 onTap: () => Navigator.of(context).pop(),
-                child: Container(color: AppColors.black.withOpacity(0.2)),
+                child: ColoredBox(color: AppColors.black.withOpacity(0.2)),
               ),
               Center(
                 child: Container(
@@ -122,16 +124,14 @@ class AlertScreen {
 
 class ConfirmButton extends StatelessWidget {
   const ConfirmButton({
-    Key? key,
     required this.buttonText,
     this.borderRadiusType = BorderRadiusType.none,
     this.onPressed,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String buttonText;
-
   final BorderRadiusType borderRadiusType;
-
   final VoidCallback? onPressed;
 
   @override
@@ -141,12 +141,12 @@ class ConfirmButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(AppColors.bodyColor),
-          overlayColor: MaterialStateProperty.all(
+          backgroundColor: WidgetStateProperty.all(AppColors.bodyColor),
+          overlayColor: WidgetStateProperty.all(
             AppColors.accentColor.withOpacity(0.35),
           ),
-          elevation: MaterialStateProperty.all(0),
-          shape: MaterialStateProperty.all(
+          elevation: WidgetStateProperty.all(0),
+          shape: WidgetStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: _buttonBorderRadiusType(borderRadiusType),
             ),
@@ -162,15 +162,17 @@ class ConfirmButton extends StatelessWidget {
   }
 
   BorderRadius _buttonBorderRadiusType(BorderRadiusType borderRadiusType) {
-    if (borderRadiusType == BorderRadiusType.confirm) {
-      return const BorderRadius.only(bottomLeft: Radius.circular(16));
-    }
-    if (borderRadiusType == BorderRadiusType.cancel) {
-      return const BorderRadius.only(bottomRight: Radius.circular(16));
-    }
-    return const BorderRadius.only(
-      bottomLeft: Radius.circular(16),
-      bottomRight: Radius.circular(16),
-    );
+    return switch (borderRadiusType) {
+      BorderRadiusType.confirm => const BorderRadius.only(
+          bottomLeft: Radius.circular(16),
+        ),
+      BorderRadiusType.cancel => const BorderRadius.only(
+          bottomRight: Radius.circular(16),
+        ),
+      _ => const BorderRadius.only(
+          bottomLeft: Radius.circular(16),
+          bottomRight: Radius.circular(16),
+        ),
+    };
   }
 }
