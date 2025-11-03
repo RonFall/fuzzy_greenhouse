@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fuzzy_greenhouse/app/app_navigator.dart';
 import 'package:fuzzy_greenhouse/app/app_providers.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
@@ -73,11 +72,7 @@ class HouseScreen extends ConsumerWidget {
             leading: CircleAvatar(
               backgroundColor: AppColors.inputFieldColor,
               radius: 24,
-              child: SvgPicture.asset(
-                AppVectorAssets.greenhouseItem,
-                height: 24,
-                width: 24,
-              ),
+              child: AppVectorAssets.greenhouseItem,
             ),
             title: const Text(
               'Антоновская',

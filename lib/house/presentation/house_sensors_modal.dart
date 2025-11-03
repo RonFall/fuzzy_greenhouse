@@ -94,7 +94,7 @@ class HouseSensorsModals {
             flex: 4,
             child: Slider(
               activeColor: AppColors.accentColor,
-              inactiveColor: AppColors.accentColor.withOpacity(0.4),
+              inactiveColor: AppColors.accentColor.withValues(alpha: 0.4),
               value: currentValue,
               min: minValue,
               max: maxValue,

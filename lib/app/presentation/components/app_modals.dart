@@ -6,7 +6,7 @@ class AppModals {
     height: 4.0,
     width: 48.0,
     decoration: BoxDecoration(
-      color: AppColors.black.withOpacity(.25),
+      color: AppColors.black.withValues(alpha: 0.25),
       borderRadius: const BorderRadius.all(Radius.circular(50)),
     ),
   );

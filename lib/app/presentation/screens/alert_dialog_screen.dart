@@ -80,7 +80,7 @@ class AlertScreen {
             children: [
               GestureDetector(
                 onTap: () => Navigator.of(context).pop(),
-                child: ColoredBox(color: AppColors.black.withOpacity(0.2)),
+                child: ColoredBox(color: AppColors.black.withValues(alpha: 0.2)),
               ),
               Center(
                 child: Container(
@@ -143,7 +143,7 @@ class ConfirmButton extends StatelessWidget {
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all(AppColors.bodyColor),
           overlayColor: WidgetStateProperty.all(
-            AppColors.accentColor.withOpacity(0.35),
+            AppColors.accentColor.withValues(alpha: 0.35),
           ),
           elevation: WidgetStateProperty.all(0),
           shape: WidgetStateProperty.all(

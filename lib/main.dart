@@ -27,16 +27,12 @@ Future<void> main() async {
     );
   };
 
-  runZonedGuarded(
-    () async {
-      WidgetsFlutterBinding.ensureInitialized();
-      await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
-      runApp(const ProviderScope(child: MyApp()));
-    },
-    (error, _) => debugPrint('Initialization error: $error'),
-  );
+  runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+    runApp(const ProviderScope(child: MyApp()));
+  }, (error, _) => debugPrint('Initialization error: $error'));
 }
 
 class MyApp extends ConsumerWidget {

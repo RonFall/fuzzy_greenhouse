@@ -3,58 +3,56 @@ description: Mobile app for control and monitoring of the Fuzzy Greenhouse.
 
 publish_to: 'none'
 
-version: 0.2.0
+version: 0.2.1
 
 environment:
-  sdk: 3.5.3
-  flutter: 3.24.3
+  sdk: ^3.7.2
 
 dependencies:
   flutter:
     sdk: flutter
 
   #---NETWORK DATA---#
-  firebase_core: 3.6.0
-  firebase_auth: 5.3.1
-  firebase_database: 11.1.4
+  firebase_core: 4.2.0
+  firebase_auth: 6.1.1
+  firebase_database: 12.0.3
 
   #---STATE MANAGEMENT---#
-  flutter_riverpod: 2.5.3
+  flutter_riverpod: 3.0.3
 
   #---UI---#
-  flutter_svg: 2.0.10+1
-  cupertino_icons: 1.0.2
+  flutter_svg: 2.2.1
+  cupertino_icons: 1.0.8
 
   #---MODEL---#
   json_annotation: 4.9.0
 
-  flutter_map: 7.0.2
+  flutter_map: 8.2.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^2.0.0
+  flutter_lints: ^5.0.0
 
   #---GENERATOR---#
-  build_runner: 2.4.13
-  json_serializable: 6.8.0
-  flutter_launcher_icons: 0.14.1
+  build_runner: 2.7.1
+  json_serializable: 6.11.1
+  flutter_launcher_icons: 0.14.4
 
 flutter:
   uses-material-design: true
 
   assets:
-    - assets/svg/icons/
     - assets/images/
 
 flutter_launcher_icons:
   path: ../
 
 flutter_icons:
-  image_path_ios: 'assets/images/app_logo.png'
-  image_path_android: 'assets/images/app_logo.png'
-  adaptive_icon_background: 'assets/images/app_logo.png'
-  adaptive_icon_foreground: 'assets/images/app_logo.png'
+  image_path_ios: 'assets/images/app_logo.webp'
+  image_path_android: 'assets/images/app_logo.webp'
+  adaptive_icon_background: 'assets/images/app_logo.webp'
+  adaptive_icon_foreground: 'assets/images/app_logo.webp'
   android: true
   ios: true
