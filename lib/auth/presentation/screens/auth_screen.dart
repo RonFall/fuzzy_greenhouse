@@ -54,12 +54,13 @@ class AuthScreen extends ConsumerWidget {
               child: AppTextField(
                 controller: passController,
                 hintText: 'Пароль',
-                onComplete: () => _onCompleteInput(
-                  context,
-                  ref: ref,
-                  email: login,
-                  pass: pass,
-                ),
+                onComplete:
+                    () => _onCompleteInput(
+                      context,
+                      ref: ref,
+                      email: login,
+                      pass: pass,
+                    ),
               ),
             ),
             const SizedBox(height: 24),
@@ -71,12 +72,13 @@ class AuthScreen extends ConsumerWidget {
                 text: 'Войти',
                 textStyle: AppTextStyle.buttonTextStyle,
                 buttonColor: AppColors.accentColor,
-                onPressed: () => _onCompleteInput(
-                  context,
-                  ref: ref,
-                  email: login,
-                  pass: pass,
-                ),
+                onPressed:
+                    () => _onCompleteInput(
+                      context,
+                      ref: ref,
+                      email: login,
+                      pass: pass,
+                    ),
               ),
             ),
           ],

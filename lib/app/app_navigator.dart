@@ -6,9 +6,9 @@ class AppNavigator {
     required Widget screen,
     RouteSettings? settings,
   }) async {
-    return Navigator.of(context).push<T?>(
-      MaterialPageRoute(builder: (_) => screen, settings: settings),
-    );
+    return Navigator.of(
+      context,
+    ).push<T?>(MaterialPageRoute(builder: (_) => screen, settings: settings));
   }
 
   static Future<T?> replaceScreen<T extends Object?>(

@@ -58,10 +58,7 @@ class AlertScreen {
       child: SizedBox(
         height: 48,
         width: double.maxFinite,
-        child: ConfirmButton(
-          buttonText: confirmButtonText,
-          onPressed: onConfirm,
-        ),
+        child: ConfirmButton(buttonText: confirmButtonText, onPressed: onConfirm),
       ),
     );
   }
@@ -86,28 +83,17 @@ class AlertScreen {
                 child: Container(
                   height: screenWidth(context) / 1.5,
                   width: screenWidth(context) / 1.5,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: AppColors.bodyColor,
-                  ),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: AppColors.bodyColor),
                   child: Center(
                     child: Column(
                       children: [
                         const Spacer(),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Text(
-                            bodyText,
-                            textAlign: TextAlign.center,
-                            style: AppTextStyle.alertTextStyle,
-                          ),
+                          child: Text(bodyText, textAlign: TextAlign.center, style: AppTextStyle.alertTextStyle),
                         ),
                         const Spacer(),
-                        Container(
-                          height: 2,
-                          width: double.maxFinite,
-                          color: AppColors.cardColor,
-                        ),
+                        Container(height: 2, width: double.maxFinite, color: AppColors.cardColor),
                         child,
                       ],
                     ),
@@ -142,37 +128,22 @@ class ConfirmButton extends StatelessWidget {
         onPressed: onPressed,
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all(AppColors.bodyColor),
-          overlayColor: WidgetStateProperty.all(
-            AppColors.accentColor.withValues(alpha: 0.35),
-          ),
+          overlayColor: WidgetStateProperty.all(AppColors.accentColor.withValues(alpha: 0.35)),
           elevation: WidgetStateProperty.all(0),
           shape: WidgetStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: _buttonBorderRadiusType(borderRadiusType),
-            ),
+            RoundedRectangleBorder(borderRadius: _buttonBorderRadiusType(borderRadiusType)),
           ),
         ),
-        child: Text(
-          buttonText,
-          textAlign: TextAlign.center,
-          style: AppTextStyle.alertTextStyle,
-        ),
+        child: Text(buttonText, textAlign: TextAlign.center, style: AppTextStyle.alertTextStyle),
       ),
     );
   }
 
   BorderRadius _buttonBorderRadiusType(BorderRadiusType borderRadiusType) {
     return switch (borderRadiusType) {
-      BorderRadiusType.confirm => const BorderRadius.only(
-          bottomLeft: Radius.circular(16),
-        ),
-      BorderRadiusType.cancel => const BorderRadius.only(
-          bottomRight: Radius.circular(16),
-        ),
-      _ => const BorderRadius.only(
-          bottomLeft: Radius.circular(16),
-          bottomRight: Radius.circular(16),
-        ),
+      BorderRadiusType.confirm => const BorderRadius.only(bottomLeft: Radius.circular(16)),
+      BorderRadiusType.cancel => const BorderRadius.only(bottomRight: Radius.circular(16)),
+      _ => const BorderRadius.only(bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16)),
     };
   }
 }

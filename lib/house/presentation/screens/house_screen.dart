@@ -40,32 +40,20 @@ class HouseScreen extends ConsumerWidget {
         backgroundColor: AppColors.accentColor,
         title: Row(
           children: [
-            CircleAvatar(
-              backgroundColor: AppColors.cardColor,
-              child: Text(email != null ? email[0] : 'G'),
-            ),
+            CircleAvatar(backgroundColor: AppColors.cardColor, child: Text(email != null ? email[0] : 'G')),
             const SizedBox(width: 12),
-            Flexible(
-              child: Text(
-                email ?? 'guest',
-                maxLines: 1,
-                style: AppTextStyle.appBarStyle,
-              ),
-            ),
+            Flexible(child: Text(email ?? 'guest', maxLines: 1, style: AppTextStyle.appBarStyle)),
           ],
         ),
         actions: [
           IconButton(
             onPressed: ref.read(authStateProvider.notifier).logOut,
             icon: const Icon(Icons.exit_to_app_rounded, size: 28),
-          )
+          ),
         ],
       ),
       body: InkWell(
-        onTap: () => AppNavigator.pushScreen(
-          context,
-          screen: const HouseSensorsInfoScreen(),
-        ),
+        onTap: () => AppNavigator.pushScreen(context, screen: const HouseSensorsInfoScreen()),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: ListTile(
@@ -74,11 +62,7 @@ class HouseScreen extends ConsumerWidget {
               radius: 24,
               child: AppVectorAssets.greenhouseItem,
             ),
-            title: const Text(
-              'Антоновская',
-              maxLines: 1,
-              style: AppTextStyle.bodyTextSubtitleThin,
-            ),
+            title: const Text('Антоновская', maxLines: 1, style: AppTextStyle.bodyTextSubtitleThin),
             trailing: const Icon(Icons.arrow_forward_ios_rounded),
           ),
         ),
@@ -112,10 +96,7 @@ class HouseEmptyView extends StatelessWidget {
             text: 'Добавить',
             textStyle: AppTextStyle.buttonTextStyle,
             buttonColor: AppColors.accentColor,
-            onPressed: () => AppNavigator.pushScreen(
-              context,
-              screen: const AddGreenhouseScreen(),
-            ),
+            onPressed: () => AppNavigator.pushScreen(context, screen: const AddGreenhouseScreen()),
           ),
         ],
       ),

@@ -4,10 +4,7 @@ import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
 import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.dart';
 
 class AppErrorView extends StatelessWidget {
-  const AppErrorView({
-    this.onPressed,
-    super.key,
-  });
+  const AppErrorView({this.onPressed, super.key});
 
   final VoidCallback? onPressed;
 

@@ -19,8 +19,8 @@ class InfoSensorCard extends StatelessWidget {
     this.circleAvatarRadius = 24,
     this.onPressed,
     super.key,
-  })  : icon = null,
-        sensorValue = null;
+  }) : icon = null,
+       sensorValue = null;
 
   final String sensorTitle;
   final double circleAvatarRadius;
@@ -53,23 +53,15 @@ class InfoSensorCard extends StatelessWidget {
             children: [
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  sensorTitle,
-                  maxLines: 1,
-                  style: AppTextStyle.bodyTextSubtitle,
-                ),
+                child: Text(sensorTitle, maxLines: 1, style: AppTextStyle.bodyTextSubtitle),
               ),
               const SizedBox(height: 12),
               if (icon != null && sensorValue != null)
                 Row(
                   children: [
-                    CircleAvatar(
-                      backgroundColor: AppColors.circleAvatarColor,
-                      radius: circleAvatarRadius,
-                      child: icon,
-                    ),
+                    CircleAvatar(backgroundColor: AppColors.circleAvatarColor, radius: circleAvatarRadius, child: icon),
                     const SizedBox(width: 8),
-                    Text(sensorValue, style: AppTextStyle.bodyTextTitle)
+                    Text(sensorValue, style: AppTextStyle.bodyTextTitle),
                   ],
                 )
               else

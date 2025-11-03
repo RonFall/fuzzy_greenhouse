@@ -23,20 +23,13 @@ final passAuthProvider = Provider.autoDispose<TextEditingController>((ref) {
 });
 
 /// Auth Providers
-final userProvider = Provider<User?>(
-  (ref) => ref.watch(authStateProvider).value,
-);
+final userProvider = Provider<User?>((ref) => ref.watch(authStateProvider).value);
 
 final authStateProvider = AsyncNotifierProvider<AuthStateNotifier, User?>(
   () => AuthStateNotifier(service: AuthService()),
 );
 
 /// Devices Providers
-final devicesStateProvider =
-    AsyncNotifierProvider<DevicesStateNotifier, GreenhouseClimateData?>(
-  () {
-    return DevicesStateNotifier(
-      database: FirebaseDatabase.instance.ref(),
-    )..getDevicesData();
-  },
-);
+final devicesStateProvider = AsyncNotifierProvider<DevicesStateNotifier, GreenhouseClimateData?>(() {
+  return DevicesStateNotifier(database: FirebaseDatabase.instance.ref())..getDevicesData();
+});

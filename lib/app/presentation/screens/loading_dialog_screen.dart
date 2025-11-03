@@ -6,10 +6,7 @@ import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
 
 @immutable
 final class LoadingScreenController {
-  const LoadingScreenController({
-    required this.close,
-    required this.update,
-  });
+  const LoadingScreenController({required this.close, required this.update});
 
   final VoidCallback close;
   final ValueChanged<String> update;
@@ -33,10 +30,7 @@ class LoadingScreen {
     _controller = null;
   }
 
-  LoadingScreenController? showOverlay(
-    BuildContext context, {
-    required String text,
-  }) {
+  LoadingScreenController? showOverlay(BuildContext context, {required String text}) {
     final textController = StreamController<String>();
     textController.add(text);
 
@@ -47,10 +41,7 @@ class LoadingScreen {
           color: Colors.black.withAlpha(150),
           child: Center(
             child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
+              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.0)),
               child: Padding(
                 padding: const EdgeInsets.all(32.0),
                 child: SingleChildScrollView(
@@ -58,11 +49,9 @@ class LoadingScreen {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const CircularProgressIndicator(
-                        color: AppColors.accentColor,
-                      ),
+                      const CircularProgressIndicator(color: AppColors.accentColor),
                       const SizedBox(height: 16),
-                      Text(text, style: AppTextStyle.alertTextStyle)
+                      Text(text, style: AppTextStyle.alertTextStyle),
                     ],
                   ),
                 ),

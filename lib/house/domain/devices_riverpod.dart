@@ -5,9 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fuzzy_greenhouse/house/data/models/devices_data.dart';
 
 class DevicesStateNotifier extends AsyncNotifier<GreenhouseClimateData?> {
-  DevicesStateNotifier({
-    required DatabaseReference database,
-  }) : _database = database;
+  DevicesStateNotifier({required DatabaseReference database}) : _database = database;
 
   final DatabaseReference _database;
 

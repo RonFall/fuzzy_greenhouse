@@ -26,32 +26,18 @@ class HouseSensorsInfoScreen extends ConsumerWidget {
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Icon(Icons.refresh_rounded, size: 32),
             ),
-          )
+          ),
         ],
       ),
       body: deviceData.when(
-        loading: () => const Center(
-          child: CircularProgressIndicator(color: AppColors.accentColor),
-        ),
+        loading: () => const Center(child: CircularProgressIndicator(color: AppColors.accentColor)),
         error: (error, stackTrace) {
-          return Center(
-            child: AppErrorView(
-              onPressed: ref.read(devicesStateProvider.notifier).getDevicesData,
-            ),
-          );
+          return Center(child: AppErrorView(onPressed: ref.read(devicesStateProvider.notifier).getDevicesData));
         },
         data: (data) {
-          if (data == null ||
-              (data.humidity == null &&
-                  data.illumination == null &&
-                  data.temperature == null)) {
+          if (data == null || (data.humidity == null && data.illumination == null && data.temperature == null)) {
             return Column(
-              children: [
-                Text(
-                  'Данные не найдены',
-                  style: AppTextStyle.appBarStyle.copyWith(color: Colors.black),
-                )
-              ],
+              children: [Text('Данные не найдены', style: AppTextStyle.appBarStyle.copyWith(color: Colors.black))],
             );
           }
 
@@ -67,17 +53,8 @@ class HouseSensorsInfoScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Flexible(
-                      child: Text('12 м', style: AppTextStyle.bodyTextSubtitle),
-                    ),
-                    Flexible(
-                      child: Text(
-                        '2',
-                        style: AppTextStyle.bodyTextSubtitle.copyWith(
-                          fontSize: 9,
-                        ),
-                      ),
-                    ),
+                    const Flexible(child: Text('12 м', style: AppTextStyle.bodyTextSubtitle)),
+                    Flexible(child: Text('2', style: AppTextStyle.bodyTextSubtitle.copyWith(fontSize: 9))),
                   ],
                 ),
               ),
@@ -87,18 +64,8 @@ class HouseSensorsInfoScreen extends ConsumerWidget {
                 title: 'Расположение',
                 trailing: Column(
                   children: [
-                    Text(
-                      '47.28 с.ш.',
-                      style: AppTextStyle.bodyTextSubtitle.copyWith(
-                        fontSize: 14,
-                      ),
-                    ),
-                    Text(
-                      '39.56 в.д.',
-                      style: AppTextStyle.bodyTextSubtitle.copyWith(
-                        fontSize: 14,
-                      ),
-                    ),
+                    Text('47.28 с.ш.', style: AppTextStyle.bodyTextSubtitle.copyWith(fontSize: 14)),
+                    Text('39.56 в.д.', style: AppTextStyle.bodyTextSubtitle.copyWith(fontSize: 14)),
                   ],
                 ),
               ),
@@ -133,11 +100,12 @@ class HouseSensorsInfoScreen extends ConsumerWidget {
               const SizedBox(height: 16),
               InfoSensorCard.custom(
                 sensorTitle: 'Температура и влажность',
-                onPressed: () => HouseSensorsModals.showTempHumidModal(
-                  context,
-                  hum: data.humidity ?? 0,
-                  temp: data.temperature ?? 0,
-                ),
+                onPressed:
+                    () => HouseSensorsModals.showTempHumidModal(
+                      context,
+                      hum: data.humidity ?? 0,
+                      temp: data.temperature ?? 0,
+                    ),
                 child: Column(
                   children: [
                     Row(
@@ -145,19 +113,10 @@ class HouseSensorsInfoScreen extends ConsumerWidget {
                         const CircleAvatar(
                           backgroundColor: AppColors.circleAvatarColor,
                           radius: 24,
-                          child: Icon(
-                            Icons.thermostat_rounded,
-                            size: 32,
-                            color: AppColors.tempSensorColor,
-                          ),
+                          child: Icon(Icons.thermostat_rounded, size: 32, color: AppColors.tempSensorColor),
                         ),
                         const SizedBox(width: 8),
-                        Flexible(
-                          child: Text(
-                            '${data.temperature} °C',
-                            style: AppTextStyle.bodyTextTitle,
-                          ),
-                        ),
+                        Flexible(child: Text('${data.temperature} °C', style: AppTextStyle.bodyTextTitle)),
                       ],
                     ),
                     const SizedBox(height: 8),
@@ -166,19 +125,10 @@ class HouseSensorsInfoScreen extends ConsumerWidget {
                         const CircleAvatar(
                           backgroundColor: AppColors.circleAvatarColor,
                           radius: 24,
-                          child: Icon(
-                            Icons.water_drop,
-                            size: 32,
-                            color: AppColors.humSensorColor,
-                          ),
+                          child: Icon(Icons.water_drop, size: 32, color: AppColors.humSensorColor),
                         ),
                         const SizedBox(width: 8),
-                        Flexible(
-                          child: Text(
-                            '${data.humidity} %',
-                            style: AppTextStyle.bodyTextTitle,
-                          ),
-                        ),
+                        Flexible(child: Text('${data.humidity} %', style: AppTextStyle.bodyTextTitle)),
                       ],
                     ),
                   ],
@@ -200,11 +150,7 @@ class HouseSensorsInfoScreen extends ConsumerWidget {
               // TODO(RonFall): Сделать вызов модалки
               InfoSensorCard(
                 sensorTitle: 'Уровень освещенности',
-                icon: const Icon(
-                  Icons.light_mode_rounded,
-                  size: 32,
-                  color: AppColors.lightSensorColor,
-                ),
+                icon: const Icon(Icons.light_mode_rounded, size: 32, color: AppColors.lightSensorColor),
                 sensorValue: '${data.illumination} лк',
                 onPressed: () {},
               ),

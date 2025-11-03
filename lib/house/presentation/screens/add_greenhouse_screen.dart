@@ -21,11 +21,7 @@ class AddGreenhouseScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              AppAssets.addGreenhouseScreen,
-              height: 128,
-              width: 128,
-            ),
+            Image.asset(AppAssets.addGreenhouseScreen, height: 128, width: 128),
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -41,7 +37,7 @@ class AddGreenhouseScreen extends StatelessWidget {
               width: screenWidth(context) / 1.5,
               text: 'Запросить доступ',
               onPressed: () => _showAfterDelay(context),
-            )
+            ),
           ],
         ),
       ),

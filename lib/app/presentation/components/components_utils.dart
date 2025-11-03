@@ -49,12 +49,11 @@ class AppButton extends StatelessWidget {
       child: ElevatedButton(
         key: key,
         onPressed: onPressed,
-        style: buttonStyle ??
+        style:
+            buttonStyle ??
             ButtonStyle(
               backgroundColor: WidgetStateProperty.all(buttonColor),
-              shape: WidgetStateProperty.all(
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-              ),
+              shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
             ),
         child: text != null ? Text(text, style: textStyle) : child,
       ),
@@ -81,9 +80,7 @@ double screenWidth(BuildContext context) {
 }
 
 extension IterableExtension on Iterable<Widget>? {
-  Iterable<Widget> divideTiles({
-    Widget divider = const Divider(),
-  }) {
+  Iterable<Widget> divideTiles({Widget divider = const Divider()}) {
     if (this == null) return [];
     final tiles = this!.toList();
 
@@ -95,9 +92,6 @@ extension IterableExtension on Iterable<Widget>? {
       return [tile, divider];
     }
 
-    return <Widget>[
-      for (final item in tiles.take(tiles.length - 1)) ...wrapTile(item),
-      tiles.last,
-    ];
+    return <Widget>[for (final item in tiles.take(tiles.length - 1)) ...wrapTile(item), tiles.last];
   }
 }
