@@ -13,12 +13,14 @@ dependencies:
     sdk: flutter
 
   #---NETWORK DATA---#
-  firebase_core: 4.2.0
+  firebase_core: 4.2.1
   firebase_auth: 6.1.1
   firebase_database: 12.0.3
+  firebase_messaging: 16.0.4
+  cloud_firestore: 6.1.0
 
   #---STATE MANAGEMENT---#
-  flutter_riverpod: 3.0.3
+  flutter_bloc: 9.1.1
 
   #---UI---#
   flutter_svg: 2.2.1
@@ -26,8 +28,10 @@ dependencies:
 
   #---MODEL---#
   json_annotation: 4.9.0
+  equatable: 2.0.7
 
   flutter_map: 8.2.2
+  flutter_local_notifications: 19.5.0
 
 dev_dependencies:
   flutter_test:

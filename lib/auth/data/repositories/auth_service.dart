@@ -10,14 +10,8 @@ class AuthService {
 
   bool get isAlreadyLoggedIn => userId != null;
 
-  Future<UserCredential> logIn({
-    required String email,
-    required String password,
-  }) async {
-    return FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+  Future<UserCredential> logIn({required String email, required String password}) async {
+    return FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
   }
 
   Future<void> logOut() async => FirebaseAuth.instance.signOut();
@@ -33,7 +27,7 @@ class AuthService {
         'invalid-email' => 'введен неверный формат Email!',
         'user-not-found' => 'пользователь с такими данными не найден!',
         'wrong-password' => 'введен неверный Email и/или пароль',
-        _ => 'неизвестное состояние.',
+        _ => 'не удалось авторизоваться. Попробуйте другие учетные данные.',
       };
     }
 

@@ -1,10 +1,8 @@
-class GreenhouseClimateData {
+import 'package:equatable/equatable.dart';
+
+class GreenhouseClimateData with EquatableMixin {
   /// Показатели датчиков тепличного хозяйства
-  const GreenhouseClimateData({
-    this.humidity,
-    this.illumination,
-    this.temperature,
-  });
+  const GreenhouseClimateData({this.humidity, this.illumination, this.temperature});
 
   /// Влажность
   final int? humidity;
@@ -16,17 +14,5 @@ class GreenhouseClimateData {
   final int? temperature;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is GreenhouseClimateData &&
-          runtimeType == other.runtimeType &&
-          illumination == other.illumination;
-
-  @override
-  int get hashCode => illumination.hashCode;
-
-  @override
-  String toString() {
-    return 'GreenhouseClimateData{humidity: $humidity, illumination: $illumination, temperature: $temperature}';
-  }
+  List<Object?> get props => [humidity, illumination, temperature];
 }

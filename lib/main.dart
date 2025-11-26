@@ -3,11 +3,14 @@ import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fuzzy_greenhouse/app/app_providers.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fuzzy_greenhouse/app/domain/firebase/firebase_init_service.dart';
+import 'package:fuzzy_greenhouse/auth/data/repositories/auth_service.dart';
+import 'package:fuzzy_greenhouse/auth/domain/bloc/auth_bloc.dart';
 import 'package:fuzzy_greenhouse/auth/presentation/screens/auth_screen.dart';
 import 'package:fuzzy_greenhouse/firebase_options.dart';
 import 'package:fuzzy_greenhouse/house/presentation/screens/house_screen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 Future<void> main() async {
   FlutterError.onError = (details) {
@@ -19,36 +22,62 @@ Future<void> main() async {
     return true;
   };
 
+  // TODO(RonFall): Доработать отправку ошибок
   ErrorWidget.builder = (details) {
-    return const Text(
-      'Ошибка при репрезентации UI',
-      textAlign: TextAlign.center,
-      style: TextStyle(color: Colors.black, fontSize: 24),
+    final warnTextColor = Colors.yellow[600];
+    return ColoredBox(
+      color: Colors.red[300]!,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Ошибка при репрезентации UI', style: TextStyle(fontSize: 24, color: warnTextColor)),
+            SizedBox(height: 16),
+            Text('Детали:', style: TextStyle(fontSize: 16, color: warnTextColor)),
+            SizedBox(height: 16),
+            Flexible(
+              child: ListView(children: [SelectableText(details.toString(), style: TextStyle(color: warnTextColor))]),
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(onPressed: () {}, child: Text('Отправить лог')),
+            SizedBox(height: 32),
+          ],
+        ),
+      ),
     );
   };
 
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-    runApp(const ProviderScope(child: MyApp()));
+    FirebaseMessaging.onBackgroundMessage(FirebaseInitService.firebaseMessagingBackgroundHandler);
+
+    await FirebaseInitService.initLocalNotifications();
+
+    runApp(MyApp());
   }, (error, _) => debugPrint('Initialization error: $error'));
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
-      title: 'Flutter Fuzzy Greenhouse',
-      debugShowCheckedModeBanner: false,
-      home: Consumer(
-        builder: (context, ref, child) {
-          final uid = ref.watch(userProvider)?.uid;
-          if (uid != null) return const HouseScreen();
-
-          return const AuthScreen();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => AuthBloc(service: AuthService()),
+      child: BlocBuilder<AuthBloc, AuthBlocState>(
+        builder: (context, state) {
+          return MaterialApp(
+            title: 'Flutter Fuzzy Greenhouse',
+            debugShowCheckedModeBanner: false,
+            home: switch (state) {
+              AuthBlocStateData() => state.user != null ? const HouseScreen() : const AuthScreen(),
+              _ => const AuthScreen(),
+            },
+          );
         },
       ),
     );
