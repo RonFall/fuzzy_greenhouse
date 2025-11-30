@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
 
-class InfoSensorCard extends StatelessWidget {
-  const InfoSensorCard({
+class GreenhouseInfoSensorCard extends StatelessWidget {
+  const GreenhouseInfoSensorCard({
     required this.sensorTitle,
     this.circleAvatarRadius = 24,
     this.child = const SizedBox.shrink(),
@@ -13,7 +13,7 @@ class InfoSensorCard extends StatelessWidget {
     super.key,
   });
 
-  const InfoSensorCard.custom({
+  const GreenhouseInfoSensorCard.custom({
     required this.sensorTitle,
     required this.child,
     this.circleAvatarRadius = 24,

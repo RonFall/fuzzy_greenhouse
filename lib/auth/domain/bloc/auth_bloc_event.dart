@@ -7,6 +7,18 @@ sealed class AuthBlocEvent with EquatableMixin {
   List<Object?> get props => [];
 }
 
+final class AuthBlocEventRegister extends AuthBlocEvent {
+  const AuthBlocEventRegister({required this.email, required this.password, this.name, this.photoURL});
+
+  final String email;
+  final String password;
+  final String? name;
+  final String? photoURL;
+
+  @override
+  List<Object?> get props => [email, password, name, photoURL];
+}
+
 final class AuthBlocEventLogin extends AuthBlocEvent {
   const AuthBlocEventLogin({required this.email, required this.password});
 

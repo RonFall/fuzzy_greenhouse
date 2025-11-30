@@ -4,22 +4,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
 import 'package:fuzzy_greenhouse/app/presentation/components/view/app_error_view.dart';
-import 'package:fuzzy_greenhouse/house/data/models/devices_data.dart';
-import 'package:fuzzy_greenhouse/house/domain/bloc/devices_info_bloc.dart';
-import 'package:fuzzy_greenhouse/house/presentation/components/sensors_info_card.dart';
-import 'package:fuzzy_greenhouse/house/presentation/components/sensors_info_list_tile.dart';
-import 'package:fuzzy_greenhouse/house/presentation/house_sensors_modal.dart';
+import 'package:fuzzy_greenhouse/greenhouse/data/models/greenhouse_climate_data.dart';
+import 'package:fuzzy_greenhouse/greenhouse/domain/bloc/greenhouse_devices_info_bloc.dart';
+import 'package:fuzzy_greenhouse/greenhouse/presentation/components/greenhouse_sensors_info_card.dart';
+import 'package:fuzzy_greenhouse/greenhouse/presentation/components/greenhouse_sensors_info_list_tile.dart';
+import 'package:fuzzy_greenhouse/greenhouse/presentation/greenhouse_sensors_modal.dart';
 
-class HouseSensorsInfoScreen extends StatelessWidget {
-  const HouseSensorsInfoScreen({super.key});
+class GreenhouseSensorsInfoScreen extends StatelessWidget {
+  const GreenhouseSensorsInfoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) {
-        return DevicesInfoBloc(database: FirebaseDatabase.instance.ref())..add(DevicesInfoBlocEventGetClimateInfo());
+        return GreenhouseDevicesInfoBloc(database: FirebaseDatabase.instance.ref())
+          ..add(GreenhouseDevicesInfoBlocEventGetClimateInfo());
       },
-      child: BlocBuilder<DevicesInfoBloc, DevicesInfoBlocState>(
+      child: BlocBuilder<GreenhouseDevicesInfoBloc, GreenhouseDevicesInfoBlocState>(
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
@@ -27,7 +28,9 @@ class HouseSensorsInfoScreen extends StatelessWidget {
               title: const Text('Антоновская', style: AppTextStyle.appBarStyle),
               actions: [
                 InkWell(
-                  onTap: () => context.read<DevicesInfoBloc>().add(DevicesInfoBlocEventGetClimateInfo()),
+                  onTap: () {
+                    context.read<GreenhouseDevicesInfoBloc>().add(GreenhouseDevicesInfoBlocEventGetClimateInfo());
+                  },
                   child: const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     child: Icon(Icons.refresh_rounded, size: 32),
@@ -36,15 +39,17 @@ class HouseSensorsInfoScreen extends StatelessWidget {
               ],
             ),
             body: switch (state) {
-              DevicesInfoBlocStateLoading() || DevicesInfoBlocStateNotInitialized() => const Center(
+              GreenhouseDevicesInfoBlocStateLoading() || GreenhouseDevicesInfoBlocStateNotInitialized() => const Center(
                 child: CircularProgressIndicator(color: AppColors.accentColor),
               ),
-              DevicesInfoBlocStateError() => Center(
+              GreenhouseDevicesInfoBlocStateError() => Center(
                 child: AppErrorView(
-                  onPressed: () => context.read<DevicesInfoBloc>().add(DevicesInfoBlocEventGetClimateInfo()),
+                  onPressed: () {
+                    context.read<GreenhouseDevicesInfoBloc>().add(GreenhouseDevicesInfoBlocEventGetClimateInfo());
+                  },
                 ),
               ),
-              DevicesInfoBlocStateData() => _HomeSensorsInfoBody(climateData: state.climateData),
+              GreenhouseDevicesInfoBlocStateData() => _HomeSensorsInfoBody(climateData: state.climateData),
             },
           );
         },
@@ -71,7 +76,7 @@ class _HomeSensorsInfoBody extends StatelessWidget {
       children: [
         const Text('Информация', style: AppTextStyle.bodyTextTitle),
         const SizedBox(height: 16),
-        InfoListTile(
+        GreenhouseInfoListTile(
           icon: const Icon(Icons.zoom_out_map_rounded),
           title: 'Площадь',
           trailing: Row(
@@ -84,7 +89,7 @@ class _HomeSensorsInfoBody extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        InfoListTile(
+        GreenhouseInfoListTile(
           icon: const Icon(Icons.pin_drop_rounded),
           title: 'Расположение',
           trailing: Column(
@@ -95,13 +100,13 @@ class _HomeSensorsInfoBody extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        const InfoListTile(
+        const GreenhouseInfoListTile(
           icon: Icon(Icons.door_front_door_rounded),
           title: 'Количество дверей',
           trailing: Text('2', style: AppTextStyle.bodyTextSubtitle),
         ),
         const SizedBox(height: 12),
-        const InfoListTile(
+        const GreenhouseInfoListTile(
           icon: Icon(Icons.window_rounded),
           title: 'Количество окон',
           trailing: Text('6', style: AppTextStyle.bodyTextSubtitle),
@@ -113,7 +118,7 @@ class _HomeSensorsInfoBody extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           child: const Padding(
             padding: EdgeInsets.symmetric(vertical: 4),
-            child: InfoListTile(
+            child: GreenhouseInfoListTile(
               icon: Icon(Icons.map_rounded),
               title: 'Скачать схему',
               trailing: Icon(Icons.sim_card_download_rounded, size: 32),
@@ -123,14 +128,15 @@ class _HomeSensorsInfoBody extends StatelessWidget {
         const SizedBox(height: 24),
         const Text('Показания', style: AppTextStyle.bodyTextTitle),
         const SizedBox(height: 16),
-        InfoSensorCard.custom(
+        GreenhouseInfoSensorCard.custom(
           sensorTitle: 'Температура и влажность',
-          onPressed:
-              () => HouseSensorsModals.showTempHumidModal(
-                context,
-                hum: climateData.humidity ?? 0,
-                temp: climateData.temperature ?? 0,
-              ),
+          onPressed: () {
+            GreenhouseSensorsModals.showTempHumidModal(
+              context,
+              hum: climateData.humidity ?? 0,
+              temp: climateData.temperature ?? 0,
+            );
+          },
           child: Column(
             children: [
               Row(
@@ -173,7 +179,7 @@ class _HomeSensorsInfoBody extends StatelessWidget {
         // ),
         const SizedBox(height: 8),
         // TODO(RonFall): Сделать вызов модалки
-        InfoSensorCard(
+        GreenhouseInfoSensorCard(
           sensorTitle: 'Уровень освещенности',
           icon: const Icon(Icons.light_mode_rounded, size: 32, color: AppColors.lightSensorColor),
           sensorValue: '${climateData.illumination} лк',

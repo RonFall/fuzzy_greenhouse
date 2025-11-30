@@ -16,6 +16,7 @@ class AppColors {
   /// TEXT FIELD COLORS
   static const inputFieldBorderColor = Color(0xFF1A6CBD);
   static const inputFieldColor = Color(0xFFE9EFFF);
+  static const textLinkColor = Color(0xFF0095FF);
 
   /// SENSORS INFO COLOR
   static const tempSensorColor = Color(0xFFD32A2A);

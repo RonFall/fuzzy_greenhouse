@@ -11,11 +11,37 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
   AuthBloc({required AuthService service})
     : _service = service,
       super(service.isAlreadyLoggedIn ? AuthBlocStateData(user: service.user) : AuthBlocStateNotInitialized()) {
+    on<AuthBlocEventRegister>(_register);
     on<AuthBlocEventLogin>(_login);
     on<AuthBlocEventLogout>(_logout);
   }
 
   final AuthService _service;
+
+  Future<void> _register(AuthBlocEventRegister event, Emitter<AuthBlocState> emit) async {
+    if (state is AuthBlocStateLoading) return;
+
+    try {
+      emit(AuthBlocStateLoading());
+
+      final response = await _service.register(email: event.email, password: event.password);
+      if ((event.name?.isNotEmpty ?? false) || (event.photoURL?.isNotEmpty ?? false)) {
+        await response.user?.updateProfile(displayName: event.name, photoURL: event.photoURL);
+      }
+
+      emit(AuthBlocStateData(user: response.user));
+    } catch (e, s) {
+      emit(AuthBlocStateError(error: e.toString()));
+
+      if (e is Exception) {
+        addError(e, s);
+
+        return;
+      }
+
+      rethrow;
+    }
+  }
 
   Future<void> _login(AuthBlocEventLogin event, Emitter<AuthBlocState> emit) async {
     if (state is AuthBlocStateLoading) return;
@@ -23,7 +49,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
     try {
       emit(AuthBlocStateLoading());
 
-      final response = await _service.logIn(email: event.email, password: event.password);
+      final response = await _service.login(email: event.email, password: event.password);
       emit(AuthBlocStateData(user: response.user));
     } catch (e, s) {
       emit(AuthBlocStateError(error: e.toString()));

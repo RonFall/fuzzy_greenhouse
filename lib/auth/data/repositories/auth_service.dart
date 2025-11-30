@@ -10,7 +10,11 @@ class AuthService {
 
   bool get isAlreadyLoggedIn => userId != null;
 
-  Future<UserCredential> logIn({required String email, required String password}) async {
+  Future<UserCredential> register({required String email, required String password}) async {
+    return FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+  }
+
+  Future<UserCredential> login({required String email, required String password}) async {
     return FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
   }
 

@@ -4,7 +4,7 @@ import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
 import 'package:fuzzy_greenhouse/app/presentation/components/app_modals.dart';
 import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.dart';
 
-class HouseSensorsModals {
+class GreenhouseSensorsModals {
   static Future<T?> showTempHumidModal<T>(BuildContext context, {required int temp, required int hum}) {
     final listParams = [
       'Температура воздуха внутри: $temp °C',

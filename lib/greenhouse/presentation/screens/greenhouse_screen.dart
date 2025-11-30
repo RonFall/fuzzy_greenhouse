@@ -8,11 +8,11 @@ import 'package:fuzzy_greenhouse/app/presentation/components/app_flush_bar.dart'
 import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.dart';
 import 'package:fuzzy_greenhouse/app/presentation/screens/loading_dialog_screen.dart';
 import 'package:fuzzy_greenhouse/auth/domain/bloc/auth_bloc.dart';
-import 'package:fuzzy_greenhouse/house/presentation/screens/add_greenhouse_screen.dart';
-import 'package:fuzzy_greenhouse/house/presentation/screens/house_sensors_info_screen.dart';
+import 'package:fuzzy_greenhouse/greenhouse/presentation/screens/greenhouse_add_screen.dart';
+import 'package:fuzzy_greenhouse/greenhouse/presentation/screens/greenhouse_sensors_info_screen.dart';
 
-class HouseScreen extends StatelessWidget {
-  const HouseScreen({super.key});
+class GreenhouseScreen extends StatelessWidget {
+  const GreenhouseScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class HouseScreen extends StatelessWidget {
               children: [
                 CircleAvatar(backgroundColor: AppColors.cardColor, child: Text(email != null ? email[0] : 'G')),
                 const SizedBox(width: 12),
-                Flexible(child: Text(email ?? 'guest', maxLines: 1, style: AppTextStyle.appBarStyle)),
+                Flexible(child: Text('Теплицы', maxLines: 1, style: AppTextStyle.appBarStyle)),
               ],
             );
           },
@@ -34,12 +34,12 @@ class HouseScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () => context.read<AuthBloc>().add(AuthBlocEventLogout()),
-            icon: const Icon(Icons.exit_to_app_rounded, size: 28),
+            icon: const Icon(Icons.exit_to_app_rounded, size: 28, color: Colors.white),
           ),
         ],
       ),
       body: InkWell(
-        onTap: () => AppNavigator.pushScreen(context, screen: const HouseSensorsInfoScreen()),
+        onTap: () => AppNavigator.pushScreen(context, screen: const GreenhouseSensorsInfoScreen()),
         child: BlocListener<AuthBloc, AuthBlocState>(
           listener: _onAuthListen,
           child: Padding(
@@ -82,9 +82,9 @@ class HouseScreen extends StatelessWidget {
 }
 
 @visibleForTesting
-class HouseEmptyView extends StatelessWidget {
+class GreenhouseEmptyView extends StatelessWidget {
   @visibleForTesting
-  const HouseEmptyView({super.key});
+  const GreenhouseEmptyView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +106,7 @@ class HouseEmptyView extends StatelessWidget {
             text: 'Добавить',
             textStyle: AppTextStyle.buttonTextStyle,
             buttonColor: AppColors.accentColor,
-            onPressed: () => AppNavigator.pushScreen(context, screen: const AddGreenhouseScreen()),
+            onPressed: () => AppNavigator.pushScreen(context, screen: const GreenhouseAddScreen()),
           ),
         ],
       ),

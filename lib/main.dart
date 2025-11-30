@@ -9,8 +9,8 @@ import 'package:fuzzy_greenhouse/auth/data/repositories/auth_service.dart';
 import 'package:fuzzy_greenhouse/auth/domain/bloc/auth_bloc.dart';
 import 'package:fuzzy_greenhouse/auth/presentation/screens/auth_screen.dart';
 import 'package:fuzzy_greenhouse/firebase_options.dart';
-import 'package:fuzzy_greenhouse/house/presentation/screens/house_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:fuzzy_greenhouse/home/presentation/screens/home_screen.dart';
 
 Future<void> main() async {
   FlutterError.onError = (details) {
@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
             title: 'Flutter Fuzzy Greenhouse',
             debugShowCheckedModeBanner: false,
             home: switch (state) {
-              AuthBlocStateData() => state.user != null ? const HouseScreen() : const AuthScreen(),
+              AuthBlocStateData() => state.user != null ? const HomeScreen() : const AuthScreen(),
               _ => const AuthScreen(),
             },
           );

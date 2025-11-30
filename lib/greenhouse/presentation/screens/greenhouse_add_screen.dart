@@ -6,8 +6,8 @@ import 'package:fuzzy_greenhouse/app/presentation/components/app_textfield.dart'
 import 'package:fuzzy_greenhouse/app/presentation/components/components_utils.dart';
 import 'package:fuzzy_greenhouse/app/presentation/screens/loading_dialog_screen.dart';
 
-class AddGreenhouseScreen extends StatelessWidget {
-  const AddGreenhouseScreen({super.key});
+class GreenhouseAddScreen extends StatelessWidget {
+  const GreenhouseAddScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +46,6 @@ class AddGreenhouseScreen extends StatelessWidget {
 
   void _showAfterDelay(BuildContext context) {
     LoadingScreen.instance.show(context);
-    Future.delayed(const Duration(milliseconds: 500), () {
-      LoadingScreen.instance.hide();
-    });
+    Future.delayed(const Duration(milliseconds: 500), LoadingScreen.instance.hide);
   }
 }
