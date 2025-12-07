@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_greenhouse/app/domain/firebase/firebase_init_service.dart';
+import 'package:fuzzy_greenhouse/app/presentation/components/view/app_error_view.dart';
 import 'package:fuzzy_greenhouse/auth/data/repositories/auth_service.dart';
 import 'package:fuzzy_greenhouse/auth/domain/bloc/auth_bloc.dart';
 import 'package:fuzzy_greenhouse/auth/presentation/screens/auth_screen.dart';
@@ -22,31 +23,7 @@ Future<void> main() async {
     return true;
   };
 
-  // TODO(RonFall): Доработать отправку ошибок
-  ErrorWidget.builder = (details) {
-    final warnTextColor = Colors.yellow[600];
-    return ColoredBox(
-      color: Colors.red[300]!,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Ошибка при репрезентации UI', style: TextStyle(fontSize: 24, color: warnTextColor)),
-            SizedBox(height: 16),
-            Text('Детали:', style: TextStyle(fontSize: 16, color: warnTextColor)),
-            SizedBox(height: 16),
-            Flexible(
-              child: ListView(children: [SelectableText(details.toString(), style: TextStyle(color: warnTextColor))]),
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(onPressed: () {}, child: Text('Отправить лог')),
-            SizedBox(height: 32),
-          ],
-        ),
-      ),
-    );
-  };
+  ErrorWidget.builder = (details) => AppErrorView(details: details);
 
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();

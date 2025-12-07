@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 import 'package:fuzzy_greenhouse/app/presentation/app_text_style.dart';
-import 'package:fuzzy_greenhouse/app/presentation/components/view/app_error_view.dart';
+import 'package:fuzzy_greenhouse/app/presentation/components/view/greenhouse_error_view.dart';
 import 'package:fuzzy_greenhouse/greenhouse/data/models/greenhouse_climate_data.dart';
 import 'package:fuzzy_greenhouse/greenhouse/domain/bloc/greenhouse_devices_info_bloc.dart';
 import 'package:fuzzy_greenhouse/greenhouse/presentation/components/greenhouse_sensors_info_card.dart';
@@ -43,7 +43,7 @@ class GreenhouseSensorsInfoScreen extends StatelessWidget {
                 child: CircularProgressIndicator(color: AppColors.accentColor),
               ),
               GreenhouseDevicesInfoBlocStateError() => Center(
-                child: AppErrorView(
+                child: GreenhouseErrorView(
                   onPressed: () {
                     context.read<GreenhouseDevicesInfoBloc>().add(GreenhouseDevicesInfoBlocEventGetClimateInfo());
                   },
