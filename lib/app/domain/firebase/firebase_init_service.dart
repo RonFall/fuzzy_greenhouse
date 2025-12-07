@@ -13,11 +13,19 @@ final class FirebaseInitService {
     print('Фоновое сообщение: ${message.messageId}');
   }
 
-  static Future<void> saveCredentials({required String uid, required String token, String? email}) async {
+  static Future<void> saveCredentials({
+    required String uid,
+    required String token,
+    String? email,
+    String? displayName,
+    String? photoURL,
+  }) async {
     return FirebaseFirestore.instance.collection('users').doc(uid).set(<String, dynamic>{
       'fcmToken': token,
       'updatedAt': FieldValue.serverTimestamp(),
       if (email != null && email.isNotEmpty) 'email': email,
+      if (displayName != null && displayName.isNotEmpty) 'displayName': displayName,
+      if (photoURL != null && photoURL.isNotEmpty) 'photoURL': photoURL,
     }, SetOptions(merge: true));
   }
 
@@ -43,7 +51,13 @@ final class FirebaseInitService {
     final user = auth.currentUser;
     if (user == null) return;
 
-    await saveCredentials(uid: user.uid, token: token, email: user.email);
+    await saveCredentials(
+      uid: user.uid,
+      token: token,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+    );
 
     final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
@@ -76,7 +90,13 @@ final class FirebaseInitService {
       final user = auth.currentUser;
       if (user == null) return;
 
-      saveCredentials(uid: user.uid, email: user.email, token: newToken);
+      saveCredentials(
+        uid: user.uid,
+        token: newToken,
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+      );
     });
   }
 }

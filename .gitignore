@@ -50,3 +50,4 @@ app.*.map.json
 
 /firebase.json
 /lib/firebase_options.dart
+/lib/firebase_api_data.dart

@@ -27,6 +27,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late final _passwordTextController = TextEditingController();
   late final _nameTextController = TextEditingController();
   late final _photoURLTextController = TextEditingController();
+
+  late final _passwordFocusNode = FocusNode();
+  late final _photoURLFocusNode = FocusNode();
+
   late final _formKey = GlobalKey<FormState>();
 
   @override
@@ -35,19 +39,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _passwordTextController.dispose();
     _nameTextController.dispose();
     _photoURLTextController.dispose();
+    _passwordFocusNode.dispose();
+    _photoURLFocusNode.dispose();
 
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final topPadding = MediaQuery.sizeOf(context).height * 0.15;
+
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) AppNavigator.replaceScreen(context, screen: const AuthScreen());
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         backgroundColor: AppColors.white,
         appBar: AppBar(
           backgroundColor: AppColors.accentColor,
@@ -67,10 +75,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Form(
                 key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: ListView(
                   children: [
-                    Image.asset(AppAssets.authLogo, scale: 2.4),
+                    SizedBox(height: topPadding),
+                    Image.asset(AppAssets.authLogo, height: 196, width: 196),
                     const SizedBox(height: 16),
                     AppTextField(
                       controller: _loginTextController,
@@ -79,7 +87,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       fieldAction: TextInputAction.next,
                       keyboardType: TextInputType.emailAddress,
                       hasClearButton: true,
-                      next: true,
+                      onComplete: _passwordFocusNode.requestFocus,
                       validator: (text) {
                         if (text?.isEmpty ?? true) return 'Поле не может быть пустым';
                         return null;
@@ -88,6 +96,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 8),
                     AppTextField(
                       controller: _passwordTextController,
+                      focusNode: _passwordFocusNode,
                       hintText: 'Пароль',
                       prefixIcon: Icon(Icons.key),
                       showObscuredText: true,
@@ -95,7 +104,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       obscureText: true,
                       enableSuggestions: false,
                       autocorrect: false,
-                      next: true,
                       validator: (text) {
                         if (text?.isEmpty ?? true) return 'Поле не может быть пустым';
                         return null;
@@ -107,17 +115,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     AppTextField(
                       controller: _nameTextController,
                       hintText: 'Имя',
+                      fieldAction: TextInputAction.next,
                       prefixIcon: Icon(Icons.person_2_outlined),
                       hasClearButton: true,
-                      next: true,
+                      onComplete: _photoURLFocusNode.requestFocus,
                     ),
                     const SizedBox(height: 8),
                     AppTextField(
                       controller: _photoURLTextController,
+                      focusNode: _photoURLFocusNode,
                       hintText: 'Ссылка для аватарки',
+                      maxLines: null,
                       prefixIcon: Icon(Icons.photo_album_outlined),
                       hasClearButton: true,
-                      next: true,
                     ),
                     const SizedBox(height: 24),
                     AppButton(
@@ -170,15 +180,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
         LoadingScreen.instance.hide();
 
         final user = state.user;
-        if (user == null) return;
-
         final token = await FirebaseMessaging.instance.getToken();
         if (token == null) return;
 
-        FirebaseInitService.saveCredentials(uid: user.uid, token: token, email: user.email);
+        FirebaseInitService.saveCredentials(
+          uid: user.uid,
+          token: token,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+        );
 
         if (!context.mounted) return;
-        AppNavigator.pushAndRemoveUntil(context, screen: const HomeScreen());
+        AppNavigator.replaceScreen(context, screen: const HomeScreen());
 
         break;
       default:

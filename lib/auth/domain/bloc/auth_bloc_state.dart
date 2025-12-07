@@ -18,7 +18,7 @@ final class AuthBlocStateLoading extends AuthBlocState {
 final class AuthBlocStateError extends AuthBlocState {
   const AuthBlocStateError({required this.error});
 
-  final String error;
+  final dynamic error;
 
   @override
   List<Object?> get props => [error];
@@ -27,8 +27,20 @@ final class AuthBlocStateError extends AuthBlocState {
 final class AuthBlocStateData extends AuthBlocState {
   const AuthBlocStateData({required this.user});
 
-  final User? user;
+  final User user;
 
   @override
   List<Object?> get props => [user];
+}
+
+final class AuthBlocStateUserDeleted extends AuthBlocState {
+  const AuthBlocStateUserDeleted();
+}
+
+final class AuthBlocStateUserLogout extends AuthBlocState {
+  const AuthBlocStateUserLogout();
+}
+
+final class AuthBlocStateUserNotFound extends AuthBlocState {
+  const AuthBlocStateUserNotFound();
 }

@@ -32,3 +32,7 @@ final class AuthBlocEventLogin extends AuthBlocEvent {
 final class AuthBlocEventLogout extends AuthBlocEvent {
   const AuthBlocEventLogout();
 }
+
+final class AuthBlocEventDeleteAccount extends AuthBlocEvent {
+  const AuthBlocEventDeleteAccount();
+}

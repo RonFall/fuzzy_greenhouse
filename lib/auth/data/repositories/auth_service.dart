@@ -20,6 +20,8 @@ class AuthService {
 
   Future<void> logOut() async => FirebaseAuth.instance.signOut();
 
+  Future<void> deleteAccount() async => user?.delete();
+
   /// Сравнивает ошибку, которая приходит с Firebase и возвращает строку с
   /// сообщением.
   ///

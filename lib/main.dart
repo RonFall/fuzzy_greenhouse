@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
             title: 'Flutter Fuzzy Greenhouse',
             debugShowCheckedModeBanner: false,
             home: switch (state) {
-              AuthBlocStateData() => state.user != null ? const HomeScreen() : const AuthScreen(),
+              AuthBlocStateData() => const HomeScreen(),
               _ => const AuthScreen(),
             },
           );

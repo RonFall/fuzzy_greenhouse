@@ -38,7 +38,7 @@ class GreenhouseDevicesInfoBloc extends Bloc<GreenhouseDevicesInfoBlocEvent, Gre
         ),
       );
     } catch (e, s) {
-      emit(GreenhouseDevicesInfoBlocStateError(error: e.toString()));
+      emit(GreenhouseDevicesInfoBlocStateError(error: e));
 
       if (e is Exception) {
         addError(e, s);

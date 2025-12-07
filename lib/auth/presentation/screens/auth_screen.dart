@@ -41,6 +41,32 @@ class _AuthScreenState extends State<AuthScreen> {
             _passwordFocusNode.unfocus();
             AppNavigator.replaceScreen(context, screen: const RegisterScreen());
           };
+
+    _showSnackBar();
+  }
+
+  Future<void> _showSnackBar() async {
+    final blocState = context.read<AuthBloc>().state;
+    final message = switch (blocState) {
+      AuthBlocStateUserNotFound() => 'Аккаунт не найден',
+      AuthBlocStateUserDeleted() => 'Аккаунт удален',
+      AuthBlocStateUserLogout() => 'Успешный выход',
+      _ => '',
+    };
+    if (message.isEmpty) return;
+
+    await Future.delayed(Duration(seconds: 1));
+
+    if (!mounted) return;
+
+    showSnackBar(
+      context,
+      message: message,
+      messageType: switch (blocState) {
+        AuthBlocStateUserDeleted() || AuthBlocStateUserNotFound() => SnackBarMessageType.warning,
+        _ => SnackBarMessageType.success,
+      },
+    );
   }
 
   @override
@@ -55,6 +81,8 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final topPadding = MediaQuery.sizeOf(context).height * 0.15;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.white,
@@ -71,20 +99,20 @@ class _AuthScreenState extends State<AuthScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Form(
               key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              child: ListView(
                 children: [
-                  Image.asset(AppAssets.authLogo, scale: 2.4),
+                  SizedBox(height: topPadding),
+                  Image.asset(AppAssets.authLogo, height: 196, width: 196),
                   const SizedBox(height: 16),
                   AppTextField(
                     controller: _loginTextController,
                     focusNode: _loginFocusNode,
                     hintText: 'Email',
-                    hasClearButton: true,
                     prefixIcon: Icon(Icons.email_outlined),
                     fieldAction: TextInputAction.next,
                     keyboardType: TextInputType.emailAddress,
-                    next: true,
+                    hasClearButton: true,
+                    onComplete: _passwordFocusNode.requestFocus,
                     validator: (text) {
                       if (text?.isEmpty ?? true) return 'Поле не может быть пустым';
                       return null;
@@ -117,17 +145,19 @@ class _AuthScreenState extends State<AuthScreen> {
                     onPressed: () => _onCompleteInput(context),
                   ),
                   const SizedBox(height: 12),
-                  RichText(
-                    text: TextSpan(
-                      text: 'Нет аккаунта? ',
-                      style: AppTextStyle.alertTextStyle,
-                      children: [
-                        TextSpan(
-                          text: 'Зарегистрируйтесь',
-                          style: AppTextStyle.alertTextStyle.copyWith(color: AppColors.textLinkColor),
-                          recognizer: _textRegisterRecognizer,
-                        ),
-                      ],
+                  Align(
+                    child: RichText(
+                      text: TextSpan(
+                        text: 'Нет аккаунта? ',
+                        style: AppTextStyle.alertTextStyle,
+                        children: [
+                          TextSpan(
+                            text: 'Зарегистрируйтесь',
+                            style: AppTextStyle.alertTextStyle.copyWith(color: AppColors.textLinkColor),
+                            recognizer: _textRegisterRecognizer,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -166,12 +196,16 @@ class _AuthScreenState extends State<AuthScreen> {
         LoadingScreen.instance.hide();
 
         final user = state.user;
-        if (user == null) return;
-
         final token = await FirebaseMessaging.instance.getToken();
         if (token == null) return;
 
-        FirebaseInitService.saveCredentials(uid: user.uid, token: token, email: user.email);
+        FirebaseInitService.saveCredentials(
+          uid: user.uid,
+          token: token,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+        );
 
         if (!context.mounted) return;
         AppNavigator.replaceScreen(context, screen: const HomeScreen());

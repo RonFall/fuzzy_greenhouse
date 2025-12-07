@@ -10,9 +10,10 @@ part 'auth_bloc_state.dart';
 class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
   AuthBloc({required AuthService service})
     : _service = service,
-      super(service.isAlreadyLoggedIn ? AuthBlocStateData(user: service.user) : AuthBlocStateNotInitialized()) {
+      super(service.isAlreadyLoggedIn ? AuthBlocStateData(user: service.user!) : AuthBlocStateNotInitialized()) {
     on<AuthBlocEventRegister>(_register);
     on<AuthBlocEventLogin>(_login);
+    on<AuthBlocEventDeleteAccount>(_deleteAccount);
     on<AuthBlocEventLogout>(_logout);
   }
 
@@ -28,10 +29,14 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
       if ((event.name?.isNotEmpty ?? false) || (event.photoURL?.isNotEmpty ?? false)) {
         await response.user?.updateProfile(displayName: event.name, photoURL: event.photoURL);
       }
-
-      emit(AuthBlocStateData(user: response.user));
+      final user = response.user;
+      if (user == null) {
+        emit(AuthBlocStateUserNotFound());
+      } else {
+        emit(AuthBlocStateData(user: user));
+      }
     } catch (e, s) {
-      emit(AuthBlocStateError(error: e.toString()));
+      emit(AuthBlocStateError(error: e));
 
       if (e is Exception) {
         addError(e, s);
@@ -50,9 +55,14 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
       emit(AuthBlocStateLoading());
 
       final response = await _service.login(email: event.email, password: event.password);
-      emit(AuthBlocStateData(user: response.user));
+      final user = response.user;
+      if (user == null) {
+        emit(AuthBlocStateUserNotFound());
+      } else {
+        emit(AuthBlocStateData(user: user));
+      }
     } catch (e, s) {
-      emit(AuthBlocStateError(error: e.toString()));
+      emit(AuthBlocStateError(error: e));
 
       if (e is Exception) {
         addError(e, s);
@@ -71,9 +81,30 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
       emit(AuthBlocStateLoading());
 
       await _service.logOut();
-      emit(AuthBlocStateData(user: null));
+      emit(AuthBlocStateUserLogout());
     } catch (e, s) {
-      emit(AuthBlocStateError(error: e.toString()));
+      emit(AuthBlocStateError(error: e));
+
+      if (e is Exception) {
+        addError(e, s);
+
+        return;
+      }
+
+      rethrow;
+    }
+  }
+
+  Future<void> _deleteAccount(AuthBlocEventDeleteAccount event, Emitter<AuthBlocState> emit) async {
+    if (state is AuthBlocStateLoading) return;
+
+    try {
+      emit(AuthBlocStateLoading());
+
+      await _service.deleteAccount();
+      emit(AuthBlocStateUserDeleted());
+    } catch (e, s) {
+      emit(AuthBlocStateError(error: e));
 
       if (e is Exception) {
         addError(e, s);

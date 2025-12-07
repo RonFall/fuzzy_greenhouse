@@ -3,13 +3,13 @@ import 'package:fuzzy_greenhouse/app/presentation/app_colors.dart';
 
 class AppTextField extends StatefulWidget {
   const AppTextField({
-    this.next = false,
     this.fieldAction = TextInputAction.done,
     this.keyboardType = TextInputType.name,
     this.hintText = '',
     this.textColor = Colors.black,
     this.inputFieldBorderColor = AppColors.accentColor,
     this.inputFieldColor = AppColors.inputFieldColor,
+    this.maxLines = 1,
     this.hasClearButton = false,
     this.showObscuredText = false,
     this.obscureText = false,
@@ -25,9 +25,6 @@ class AppTextField extends StatefulWidget {
     this.onChanged,
     super.key,
   });
-
-  /// Переключать фокус с одного текстового поля на другое
-  final bool next;
 
   /// Действие после заполнения поля
   final TextInputAction fieldAction;
@@ -46,6 +43,9 @@ class AppTextField extends StatefulWidget {
 
   /// Цвет рамки текстового поля
   final Color inputFieldBorderColor;
+
+  /// Максимальное количество строк инпута
+  final int? maxLines;
 
   /// Кнопка стирания текста
   final bool hasClearButton;
@@ -148,6 +148,7 @@ class _AppTextFieldState extends State<AppTextField> {
           autocorrect: widget.autocorrect,
           validator: widget.validator,
           autovalidateMode: AutovalidateMode.onUserInteraction,
+          maxLines: widget.obscureText ? 1 : widget.maxLines,
           decoration: InputDecoration(
             hintText: widget.hintText,
             contentPadding: EdgeInsets.all(8),
@@ -170,14 +171,7 @@ class _AppTextFieldState extends State<AppTextField> {
             fillColor: widget.inputFieldColor,
             filled: true,
           ),
-          onEditingComplete: () {
-            if (widget.next) {
-              FocusScope.of(context).nextFocus();
-            } else {
-              FocusScope.of(context).unfocus();
-              widget.onComplete?.call();
-            }
-          },
+          onEditingComplete: widget.onComplete?.call,
           onSaved: widget.onSaved,
           onChanged: widget.onChanged,
         );

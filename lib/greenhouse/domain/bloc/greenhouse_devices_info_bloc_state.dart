@@ -18,7 +18,7 @@ final class GreenhouseDevicesInfoBlocStateLoading extends GreenhouseDevicesInfoB
 final class GreenhouseDevicesInfoBlocStateError extends GreenhouseDevicesInfoBlocState {
   const GreenhouseDevicesInfoBlocStateError({required this.error});
 
-  final String error;
+  final dynamic error;
 
   @override
   List<Object?> get props => [error];
