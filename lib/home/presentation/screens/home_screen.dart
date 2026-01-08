@@ -8,7 +8,16 @@ import 'package:fuzzy_greenhouse/auth/presentation/screens/auth_screen.dart';
 import 'package:fuzzy_greenhouse/greenhouse/presentation/screens/greenhouse_screen.dart';
 import 'package:fuzzy_greenhouse/settings/presentation/screens/settings_screen.dart';
 
-enum BottomNavTabs { greenhouse, settings }
+enum BottomNavTabs {
+  greenhouse(label: 'Теплицы', icon: Icon(Icons.home), screen: GreenhouseScreen()),
+  settings(label: 'Настройки', icon: Icon(Icons.manage_accounts), screen: SettingsScreen());
+
+  const BottomNavTabs({required this.label, required this.icon, required this.screen});
+
+  final String label;
+  final Widget icon;
+  final Widget screen;
+}
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -57,35 +66,13 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
-          items: _navTabs(),
+          items: BottomNavTabs.values.map((e) => BottomNavigationBarItem(icon: e.icon, label: e.label)).toList(),
           selectedItemColor: Colors.white,
           backgroundColor: AppColors.accentColor,
           onTap: (index) => setState(() => _selectedIndex = index),
         ),
-        body: _navTabScreen(),
+        body: BottomNavTabs.values.map((e) => e.screen).elementAt(_selectedIndex),
       ),
     );
-  }
-
-  List<BottomNavigationBarItem> _navTabs() {
-    return BottomNavTabs.values
-        .map(
-          (e) => switch (e) {
-            BottomNavTabs.greenhouse => BottomNavigationBarItem(icon: Icon(Icons.home), label: ("Теплицы")),
-            BottomNavTabs.settings => BottomNavigationBarItem(icon: Icon(Icons.manage_accounts), label: ("Настройки")),
-          },
-        )
-        .toList();
-  }
-
-  Widget _navTabScreen() {
-    return BottomNavTabs.values
-        .map((e) {
-          return switch (e) {
-            BottomNavTabs.greenhouse => GreenhouseScreen(),
-            BottomNavTabs.settings => SettingsScreen(),
-          };
-        })
-        .elementAt(_selectedIndex);
   }
 }
